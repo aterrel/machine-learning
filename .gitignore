@@ -1,0 +1,46 @@
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Node / JavaScript
+node_modules/
+.next/
+dist/
+.nuxt/
+.cache/
+
+# Go
+*.test
+vendor/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/settings.local.json
+
+# Agent worktrees (managed by git, not committed)
+agent-worktrees/
