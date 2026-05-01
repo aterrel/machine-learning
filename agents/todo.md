@@ -10,10 +10,11 @@
 - [ ] [Prod-Mgr] Review and finalize REQ-0006: Memory Management Patterns
 
 ### Programmer
-- [ ] [Prog] Fix TL-S2-002: Add comment/note about wall-clock timing for k-means GPU in run_all.py
-- [ ] [Prog] Fix TL-S2-004: Document cache_key param in compiler.py compile() docstring
-- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (P1 carry from Sprint 2)
-- [ ] [Prog] Implement `demos/06_interop/` — NumPy/CuPy/PyTorch interop (REQ-0005)
+- [x] [Prog] Fix TL-S2-002: Add comment/note about wall-clock timing for k-means GPU in run_all.py
+- [x] [Prog] Fix TL-S2-004: Document cache_key param in compiler.py compile() docstring
+- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (P1 carry from Sprint 2) [DEFERRED]
+- [x] [Prog] Implement `demos/06_interop/` — NumPy/CuPy/PyTorch interop (REQ-0005)
+- [x] [Prog] Implement `demos/07_memory/` — Memory management patterns (REQ-0006)
 - [ ] [Prog] Generate Jupyter notebook versions of demos 01 and 02
 
 ### QA Agent

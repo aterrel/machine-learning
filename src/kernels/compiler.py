@@ -19,7 +19,15 @@ class KernelCompiler:
         cache_key: str | None = None,
         stream=None,
     ) -> CompiledKernel:
-        """Compile CUDA C source and return a launchable CompiledKernel."""
+        """Compile CUDA C source and return a launchable CompiledKernel.
+
+        Args:
+            source: CUDA C kernel source string.
+            kernel_name: Name of the __global__ function to extract.
+            cache_key: Key to store compiled kernel in cache. Pass None to skip caching
+                (kernel is compiled fresh each call, not stored).
+            stream: Optional stream to associate with the compiled kernel.
+        """
         key = cache_key or f"{kernel_name}:{hash(source)}"
         if key in self._cache:
             return self._cache[key]
