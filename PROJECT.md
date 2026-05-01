@@ -7,82 +7,69 @@ Once complete, run `/bootstrap` in Claude Code and the system will generate ever
 
 ## Project Name
 
-[Your project name here]
+CUDA Python ML Demos
 
 ---
 
 ## Vision
 
-[1-3 sentences. What is this? Who is it for? What problem does it solve?]
-
-Example: "A personal AI assistant that helps software developers manage their email across 10+ accounts,
-reducing time spent on email by 50% through intelligent prioritization and automated junk removal."
+A collection of hands-on demonstrations showing how to use [CUDA Python](https://github.com/nvidia/cuda-python) to accelerate common machine learning algorithms directly on NVIDIA GPUs. Targeted at ML practitioners and researchers who want low-level GPU control without leaving Python, bridging the gap between high-level frameworks and raw CUDA programming.
 
 ---
 
 ## High-Level Objectives
 
-List the major user-facing outcomes you want to achieve. These become your initial REQ documents.
-Write outcomes, not implementations. Use plain language. 3-8 objectives is ideal.
-
-1. [Objective 1 — e.g., "Users can connect and manage multiple email accounts from one UI"]
-2. [Objective 2 — e.g., "The system automatically prioritizes emails by importance"]
-3. [Objective 3 — e.g., "Users can search emails across all accounts with natural language"]
-4. [Objective 4]
-5. [Objective 5]
+1. Demonstrate core CUDA Python APIs (cuda.core, cuda.bindings) with working ML examples
+2. Implement and benchmark GPU-accelerated versions of foundational ML algorithms (e.g., k-means, PCA, linear regression, naive Bayes)
+3. Show how to write and launch custom CUDA kernels from Python for ML operations (matrix multiply, softmax, ReLU, etc.)
+4. Provide side-by-side comparisons of NumPy/CPU vs CUDA Python/GPU implementations with timing and speedup metrics
+5. Include end-to-end examples that integrate CUDA Python with popular ML libraries (NumPy, PyTorch, CuPy)
+6. Document memory management patterns (device allocation, transfers, streams) relevant to ML workloads
 
 ---
 
 ## Tech Stack
 
-Leave blank if you want the system to recommend a stack based on your objectives.
-
-- **Backend language/framework**: [e.g., Python/FastAPI, TypeScript/Express, Go/Gin, Ruby/Rails]
-- **Frontend**: [e.g., React/TypeScript, Vue, Next.js, none (API only), CLI only]
-- **Database**: [e.g., PostgreSQL, MongoDB, SQLite, Redis, none]
-- **Background jobs**: [e.g., Celery, BullMQ, Sidekiq, none]
-- **Deployment target**: [e.g., Docker, Kubernetes, Vercel, AWS Lambda, local only]
-- **Special infrastructure**: [e.g., pgvector, Elasticsearch, S3, none]
+- **Backend language/framework**: Python 3.11+
+- **Frontend**: CLI only / Jupyter notebooks for interactive demos
+- **Database**: none
+- **Background jobs**: none
+- **Deployment target**: local only (requires NVIDIA GPU)
+- **Special infrastructure**: CUDA Python (cuda-python), CUDA Toolkit 12.x, NumPy, CuPy (optional interop), PyTorch (optional interop)
 
 ---
 
 ## Constraints
 
-List anything the system must work within. These affect architecture decisions.
-
-- [ ] [e.g., "Must work completely offline — no cloud AI inference"]
-- [ ] [e.g., "Single developer — keep complexity low, avoid microservices"]
-- [ ] [e.g., "Must handle 1M+ records — performance is critical"]
-- [ ] [e.g., "Privacy-first — all data stays local"]
-- [ ] [e.g., "Open source — avoid proprietary dependencies where possible"]
+- [x] Requires an NVIDIA GPU with CUDA 12.x support
+- [x] All core demos must use cuda-python directly — not just PyTorch/CuPy wrappers
+- [x] Each demo must be self-contained and runnable independently
+- [x] Must work on a single machine (no distributed/multi-node setup)
+- [x] Avoid heavy ML framework dependencies in core demos — keep them close to the metal
 
 ---
 
 ## Success Metrics
 
-How will you know this project is successful? These become acceptance criteria.
-
-- [e.g., "Reduces time spent on email by 50%"]
-- [e.g., "95%+ accuracy on priority classification"]
-- [e.g., "Sub-second search across 100k+ emails"]
-- [e.g., "Setup takes < 10 minutes for a new user"]
+- Each demo runs end-to-end without errors on a CUDA 12.x GPU
+- GPU implementations achieve measurable speedup over CPU baselines (documented per demo)
+- A new user familiar with Python and basic ML can understand and run any demo in under 15 minutes
+- All CUDA Python API usage reflects current cuda-python best practices (cuda.core / cuda.bindings)
 
 ---
 
-## Out of Scope (optional but recommended)
+## Out of Scope
 
-Be explicit about what this project will NOT do. Prevents scope creep.
-
-- [e.g., "Email composition and sending (read-only for now)"]
-- [e.g., "Mobile app (web only in v1)"]
-- [e.g., "Team/shared mailbox features"]
+- Training large neural networks (focus is algorithms, not DNN frameworks)
+- Multi-GPU or distributed training
+- Windows support (Linux only for now)
+- Replacing or competing with CuPy, PyTorch, or JAX — this is educational, not a library
 
 ---
 
-## Additional Context (optional)
+## Additional Context
 
-Any other information the system should know:
-- Existing codebase? Link to it or describe its state.
-- Technical decisions already made?
-- External APIs or services this will integrate with?
-- Similar existing products to reference?
+- CUDA Python repo: https://github.com/nvidia/cuda-python
+- cuda-python exposes two layers: `cuda.bindings` (raw CUDA C API bindings) and `cuda.core` (higher-level Pythonic wrappers) — demos should use `cuda.core` where practical and drop to `cuda.bindings` when needed for low-level control
+- Target audience: ML engineers comfortable with Python and NumPy who want to learn GPU programming without C++
+- Reference for algorithm selection: classic ML algorithms that have well-understood GPU parallelization patterns (e.g., embarrassingly parallel distance computations in k-means, matrix ops in linear models)
