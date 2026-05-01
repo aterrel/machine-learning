@@ -1,7 +1,7 @@
 # PROJECT_STATUS.md — CUDA Python ML Demos
 
 **Last Updated**: 2026-05-01
-**Current Sprint**: Sprint 1
+**Current Sprint**: Sprint 2
 **Sprint Dates**: 2026-05-01 → 2026-05-15
 
 ---
@@ -10,50 +10,63 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟡 Yellow | REQ-0001–0006 drafted, not yet reviewed |
-| Architecture | 🟡 Yellow | ARCH-001 created, ARCH-002 created; not yet reviewed |
-| Implementation | 🔴 Red | Not started |
-| Tests | 🔴 Red | Not started |
-| Documentation | 🟡 Yellow | Project structure defined; inline docs pending |
-| CI/Build | 🔴 Red | Not configured |
+| Requirements | 🟢 Green | REQ-0001, REQ-0002 Active; REQ-0003–0006 Draft |
+| Architecture | 🟢 Green | ARCH-001, ARCH-002 Approved |
+| Implementation | 🟡 Yellow | Sprint 1 complete (01_core_apis, 02_kmeans); Sprint 2 in progress |
+| Tests | 🟡 Yellow | 11 CPU tests pass; 5 GPU tests pending hardware; test_memory.py missing |
+| Documentation | 🟡 Yellow | Inline docs present; README not yet written |
+| CI/Build | 🔴 Red | pyproject.toml in place; no CI pipeline yet |
 
 ---
 
-## Sprint 1 Goal
+## Sprint 2 Goal
 
-**Make the core GPU loop work end-to-end**: Stand up the repo structure, validate CUDA Python API access (`cuda.core` + `cuda.bindings`), and ship one fully working GPU-accelerated demo (k-means) with a CPU baseline comparison and correctness check.
+**Implement remaining algorithm demos**: GPU PCA, GPU linear regression, GPU naive Bayes, and GEMM/activation kernels. Address minor Tech Lead issues carried from Sprint 1.
 
 ---
 
-## Sprint Backlog
+## Sprint 2 Backlog
 
 ### Pending
 
-- [ ] [Prod-Mgr] Review and finalize REQ-0001 through REQ-0006
-- [ ] [Arch] Review ARCH-001 (Overall Architecture) and ARCH-002 (CUDA Kernel Pipeline) and issue Approved status
-- [ ] [Arch] Create ARCH-001 → Programmer handoff document
-- [ ] [Prog] Scaffold `src/utils/` — device info, memory helpers, timing utilities
-- [ ] [Prog] Implement `demos/01_core_apis/` — CUDA Python API tour (cuda.core + cuda.bindings)
-- [ ] [Prog] Implement `demos/02_kmeans/` — GPU k-means with CPU baseline
-- [ ] [Prog] Implement `benchmarks/benchmark_runner.py` — unified benchmark harness
-- [ ] [QA] Write test plans for REQ-0001, REQ-0002
-- [ ] [QA] Write GPU smoke tests (`tests/test_device.py`, `tests/test_kmeans.py`)
-- [ ] [Tech Lead] Sprint 1 code review (triggers at sprint end)
+- [ ] [Prog] Fix minor TL items: TL-004 (test_memory.py), TL-005 (duplicate import), TL-006 (BenchmarkRunner in run_all.py), TL-007 (compiler docstring)
+- [ ] [Prod-Mgr] Review and finalize REQ-0003: Custom CUDA Kernels Library
+- [ ] [Prod-Mgr] Review and finalize REQ-0004: Benchmarking Infrastructure
+- [ ] [Prog] Implement `demos/03_pca/` — GPU PCA via covariance matrix (REQ-0002)
+- [ ] [Prog] Implement `demos/04_linear_model/` — GPU linear regression normal equation (REQ-0002)
+- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (REQ-0002)
+- [ ] [Prog] Implement `demos/05_kernels/` — GEMM + ReLU + softmax kernels (REQ-0003)
+- [ ] [QA] Write test plans for REQ-0003, REQ-0004
+- [ ] [QA] Implement tests/test_memory.py — DeviceBuffer, alloc_pinned tests
+- [ ] [QA] Implement tests/test_pca.py, tests/test_linear.py
 
 ### In Progress
 
 _(none yet)_
 
-### Completed (Sprint 0 / Bootstrap)
+---
 
-- [x] [Claude-Mgr] PROJECT.md filled in and validated
-- [x] [Claude-Mgr] CLAUDE.md generated
-- [x] [Claude-Mgr] PROJECT_STATUS.md initialized (this file)
-- [x] [Claude-Mgr] agents/todo.md created
-- [x] [Claude-Mgr] REQ-0001 through REQ-0006 created
-- [x] [Claude-Mgr] ARCH-001: Overall System Architecture created
-- [x] [Claude-Mgr] ARCH-002: CUDA Kernel Pipeline created
-- [x] [Claude-Mgr] Arch → Programmer handoff created
+## Sprint History
+
+### Sprint 0 / Bootstrap (2026-05-01)
+- Project initialized, CLAUDE.md generated, all documents scaffolded
+- REQ-0001–0006 created, ARCH-001–002 created, handoffs created
+
+### Sprint 1 (2026-05-01) — CLOSED
+**Goal**: Core GPU loop end-to-end + k-means demo
+**Verdict**: Conditional Approval (Tech Lead, 2026-05-01)
+**Delivered**:
+- REQ-0001, REQ-0002 marked Active
+- ARCH-001, ARCH-002 approved
+- pyproject.toml (ruff + pytest config)
+- src/utils/ (device, memory, timing)
+- src/kernels/ (KernelCompiler, CompiledKernel)
+- demos/01_core_apis/ (device_info, vector_add, pinned_memory, main)
+- demos/02_kmeans/ (cpu_kmeans, gpu_kmeans, main)
+- benchmarks/run_all.py
+- tests/ (conftest, test_device, test_kernels, test_kmeans) — 11 CPU tests pass
+- TEST-PLAN-REQ-0001.md, TEST-PLAN-REQ-0002.md
+- TL review issues fixed (TL-001 pinned mem leak, TL-003 RNG loop reset)
 
 ---
 
@@ -61,13 +74,12 @@ _(none yet)_
 
 | Agent | Status | Current Task |
 |-------|--------|-------------|
-| Claude Manager | Active | Bootstrap complete; monitoring sprint |
-| Product Manager | Pending | Review REQ-0001–0006 |
-| Software Architect | Pending | Review and approve ARCH-001, ARCH-002 |
-| Programmer | Blocked | Awaiting ARCH handoff |
-| QA Agent | Available | Can begin test plans for REQ-0001, REQ-0002 |
-| Tech Lead | Blocked | Awaiting sprint end |
-| Project Manager | Available | Tracking sprint progress |
+| Claude Manager | Active | Sprint 2 opened |
+| Product Manager | Pending | Review REQ-0003, REQ-0004 |
+| Software Architect | Available | ARCH docs approved; available for Sprint 2 reviews |
+| Programmer | Pending | Sprint 2 tasks (TL fixes + new demos) |
+| QA Agent | Pending | test_memory.py + Sprint 2 test plans |
+| Tech Lead | Available | Sprint 2 review at sprint end |
 
 ---
 
@@ -81,13 +93,14 @@ _(none yet)_
 | Requirements | `agents/requirements/REQ-0001.md` – `REQ-0006.md` |
 | Architecture (overall) | `agents/architecture/ARCH-001.md` |
 | Architecture (kernels) | `agents/architecture/ARCH-002.md` |
-| Arch → Prog handoff | `agents/handoffs/HANDOFF-arch-to-prog-all-reqs-2026-05-01.md` |
+| Sprint 1 TL review | `agents/reviews/code/TL-review-sprint1-2026-05-01.md` |
+| Sprint 1 retro | `agents/session-logs/proj-mgr/sprint-1-retro-2026-05-01.md` |
 | Agent definitions | `agents/workflow/agents.md` |
-| Session logs | `agents/session-logs/claude-manager/2026-05-01-001.md` |
 
 ---
 
 ## Open Blockers
 
-- GPU availability not yet confirmed in CI — all GPU tests require a physical NVIDIA GPU
-- `cuda-python` version compatibility with installed CUDA Toolkit needs validation at first run
+- GPU availability not confirmed in CI — all GPU tests require a physical NVIDIA GPU
+- `cuda-python` not installed in dev environment — GPU path untested locally
+- No CI pipeline configured

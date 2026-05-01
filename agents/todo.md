@@ -1,59 +1,35 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Sprint 1 — Core GPU Loop + K-Means Demo (2026-05-01 → 2026-05-15)
+## Sprint 2 — Remaining Algorithm Demos (2026-05-01 → 2026-05-15)
 
 ### Claude Manager
-- [x] [Claude-Mgr] Bootstrap initialization
-- [x] [Claude-Mgr] CLAUDE.md generated from PROJECT.md
-- [x] [Claude-Mgr] PROJECT_STATUS.md created (Sprint 1 defined)
-- [x] [Claude-Mgr] REQ-0001 through REQ-0006 created
-- [x] [Claude-Mgr] ARCH-001: Overall System Architecture created
-- [x] [Claude-Mgr] ARCH-002: CUDA Kernel Pipeline created
-- [x] [Claude-Mgr] Arch → Programmer handoff created
+- [x] [Claude-Mgr] Close Sprint 1, open Sprint 2
 
 ### Product Manager
-- [x] [Prod-Mgr] Review and finalize REQ-0001: Core CUDA Python API Demonstrations
-- [x] [Prod-Mgr] Review and finalize REQ-0002: GPU-Accelerated ML Algorithm Demos
-- [x] [Prod-Mgr] Mark REQ-0001 and REQ-0002 as Active when approved
-
-### Software Architect
-- [x] [Arch] ARCH-001: Overall System Architecture (created in bootstrap)
-- [x] [Arch] ARCH-002: CUDA Kernel Compilation and Launch Pipeline (created in bootstrap)
-- [x] [Arch] Review ARCH-001 and ARCH-002 — mark as Approved when satisfied
-- [x] [Arch] Issue Arch → Programmer handoff (update HANDOFF doc with approval)
-- [x] [Arch] Create pyproject.toml with ruff + pytest config
+- [ ] [Prod-Mgr] Review and finalize REQ-0003: Custom CUDA Kernels Library
+- [ ] [Prod-Mgr] Review and finalize REQ-0004: Benchmarking Infrastructure
 
 ### Programmer
-- [x] [Prog] Scaffold `src/utils/device.py`
-- [x] [Prog] Scaffold `src/utils/memory.py` — DeviceBuffer context manager
-- [x] [Prog] Scaffold `src/utils/timing.py` — BenchmarkResult, BenchmarkRunner
-- [x] [Prog] Implement `src/kernels/compiler.py` — KernelCompiler via NVRTC
-- [x] [Prog] Implement `src/kernels/compiled_kernel.py` — CompiledKernel.launch()
-- [x] [Prog] Implement `demos/01_core_apis/` — device info + vector-add + pinned memory
-- [x] [Prog] Implement `demos/02_kmeans/` — GPU k-means with CPU baseline
-- [x] [Prog] Implement `benchmarks/run_all.py` — unified benchmark CLI
+- [ ] [Prog] Fix TL-004: Implement `tests/test_memory.py`
+- [ ] [Prog] Fix TL-005: Remove duplicate import in `demos/01_core_apis/vector_add.py`
+- [ ] [Prog] Fix TL-006: Use BenchmarkRunner in `benchmarks/run_all.py`
+- [ ] [Prog] Fix TL-007: Document `cache_key=None` behavior in `src/kernels/compiler.py`
+- [ ] [Prog] Implement `demos/03_pca/` — GPU PCA via covariance matrix (REQ-0002)
+- [ ] [Prog] Implement `demos/04_linear_model/` — GPU linear regression normal equation (REQ-0002)
+- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (REQ-0002)
+- [ ] [Prog] Implement `demos/05_kernels/` — GEMM + ReLU + softmax kernels (REQ-0003)
 
 ### QA Agent
-- [x] [QA] Write test plan for REQ-0001: Core CUDA Python API Demonstrations (agents/requirements/TEST-PLAN-REQ-0001.md)
-- [x] [QA] Write test plan for REQ-0002: GPU-Accelerated ML Algorithm Demos (agents/requirements/TEST-PLAN-REQ-0002.md)
-- [x] [QA] Implement `tests/conftest.py` — GPU pytest mark, device fixture
-- [x] [QA] Implement `tests/test_device.py`
-- [x] [QA] Implement `tests/test_kernels.py`
-- [x] [QA] Implement `tests/test_kmeans.py`
+- [ ] [QA] Write test plans for REQ-0003, REQ-0004
+- [ ] [QA] Implement `tests/test_pca.py`
+- [ ] [QA] Implement `tests/test_linear.py`
 
 ### Tech Lead
-- [x] [Tech-Lead] Sprint 1 code review — Conditional Approval issued (2026-05-01); TL-001/TL-002 must fix before Sprint 2 close
+- [!] [Tech-Lead] Sprint 2 code review (triggers at sprint end)
 
 ---
 
 ## Backlog (Future Sprints)
-
-### Sprint 2 — Remaining Algorithm Demos
-- [ ] [Prog] Implement `demos/03_pca/` — GPU PCA (REQ-0002)
-- [ ] [Prog] Implement `demos/04_linear_model/` — GPU linear regression (REQ-0002)
-- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU naive Bayes (REQ-0002)
-- [ ] [Prog] Implement `demos/05_kernels/` — GEMM + activations (REQ-0003)
-- [ ] [QA] Test plans for REQ-0003, REQ-0004
 
 ### Sprint 3 — Interop, Memory, Notebooks
 - [ ] [Prog] Implement `demos/06_interop/` — NumPy/CuPy/PyTorch interop (REQ-0005)
@@ -68,7 +44,28 @@
 
 ---
 
-## Completed (Sprint 0 / Bootstrap)
+## Completed
 
+### Sprint 0 / Bootstrap
 - [x] [Claude-Mgr] PROJECT.md filled in and validated
 - [x] [Claude-Mgr] Bootstrap initialization complete (2026-05-01)
+
+### Sprint 1 — Core GPU Loop + K-Means Demo (CLOSED 2026-05-01)
+- [x] [Claude-Mgr] CLAUDE.md generated from PROJECT.md
+- [x] [Claude-Mgr] PROJECT_STATUS.md created (Sprint 1 defined)
+- [x] [Claude-Mgr] REQ-0001 through REQ-0006 created
+- [x] [Claude-Mgr] ARCH-001: Overall System Architecture created
+- [x] [Claude-Mgr] ARCH-002: CUDA Kernel Pipeline created
+- [x] [Claude-Mgr] Arch → Programmer handoff created
+- [x] [Prod-Mgr] Review and finalize REQ-0001, REQ-0002 — marked Active
+- [x] [Arch] ARCH-001, ARCH-002 approved
+- [x] [Arch] pyproject.toml created (ruff + pytest config)
+- [x] [Prog] Scaffold `src/utils/device.py`, `memory.py`, `timing.py`
+- [x] [Prog] Implement `src/kernels/compiler.py`, `compiled_kernel.py`
+- [x] [Prog] Implement `demos/01_core_apis/` (device_info, vector_add, pinned_memory, main)
+- [x] [Prog] Implement `demos/02_kmeans/` (cpu_kmeans, gpu_kmeans, main)
+- [x] [Prog] Implement `benchmarks/run_all.py`
+- [x] [Prog] Fix TL-001 (pinned mem leak), TL-003 (RNG loop reset)
+- [x] [QA] TEST-PLAN-REQ-0001.md, TEST-PLAN-REQ-0002.md
+- [x] [QA] tests/conftest.py, test_device.py, test_kernels.py, test_kmeans.py (11 CPU tests pass)
+- [x] [Tech-Lead] Sprint 1 review — Conditional Approval (2026-05-01)
