@@ -6,8 +6,8 @@
 - [x] [Claude-Mgr] Close Sprint 1, open Sprint 2
 
 ### Product Manager
-- [ ] [Prod-Mgr] Review and finalize REQ-0003: Custom CUDA Kernels Library
-- [ ] [Prod-Mgr] Review and finalize REQ-0004: Benchmarking Infrastructure
+- [x] [Prod-Mgr] Review and finalize REQ-0003: Custom CUDA Kernels Library
+- [x] [Prod-Mgr] Review and finalize REQ-0004: Benchmarking Infrastructure
 
 ### Programmer
 - [ ] [Prog] Fix TL-004: Implement `tests/test_memory.py`
@@ -20,9 +20,10 @@
 - [x] [Prog] Implement `demos/05_kernels/` — GEMM + ReLU + softmax kernels (REQ-0003)
 
 ### QA Agent
-- [ ] [QA] Write test plans for REQ-0003, REQ-0004
-- [ ] [QA] Implement `tests/test_pca.py`
-- [ ] [QA] Implement `tests/test_linear.py`
+- [x] [QA] Write test plans for REQ-0003, REQ-0004
+- [x] [QA] Implement `tests/test_pca.py`
+- [x] [QA] Implement `tests/test_linear.py`
+- [x] [QA] Implement `tests/test_memory.py` (TL-004 fix)
 
 ### Tech Lead
 - [!] [Tech-Lead] Sprint 2 code review (triggers at sprint end)
