@@ -1,40 +1,8 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 5 IN PROGRESS (2026-05-01)
+## Status: PROJECT COMPLETE — SPRINT 5 CLOSED (2026-05-01)
 
-REQ-0007 + REQ-0008 created. Sprint 5 goal: multi-backend comparison (Numba + CuPy + cuML).
-39 CPU tests pass. 15 GPU tests ready for hardware validation.
-
----
-
-## Sprint 5 — Multi-Backend Comparison (IN PROGRESS)
-
-### REQ-0007: Numba-CUDA + CuPy variants for all algorithm demos
-
-- [ ] [Arch] Create ARCH-003 for multi-backend design pattern
-- [ ] [Prog] demos/01_core_apis/numba_vector_add.py
-- [ ] [Prog] demos/01_core_apis/cupy_vector_add.py
-- [ ] [Prog] demos/02_kmeans/numba_kmeans.py
-- [ ] [Prog] demos/02_kmeans/cupy_kmeans.py
-- [ ] [Prog] demos/03_pca/numba_pca.py
-- [ ] [Prog] demos/03_pca/cupy_pca.py
-- [ ] [Prog] demos/04_linear_model/numba_linear.py
-- [ ] [Prog] demos/04_linear_model/cupy_linear.py
-- [ ] [Prog] demos/05_naive_bayes/numba_nb.py
-- [ ] [Prog] demos/05_naive_bayes/cupy_nb.py
-- [ ] [Prog] demos/05_kernels/numba_kernels.py (P1)
-- [ ] [Prog] demos/05_kernels/cupy_kernels.py (P1)
-- [ ] [Prog] Update benchmarks/run_all.py with --backend flag and multi-column table
-- [ ] [QA]  tests/test_numba_variants.py (CPU-safe: shape + skip-if-absent)
-- [ ] [QA]  tests/test_cupy_variants.py (CPU-safe: shape + skip-if-absent)
-
-### REQ-0008: Unified comparison demo (demos/08_comparison/) + cuML
-
-- [ ] [Prog] demos/08_comparison/__init__.py
-- [ ] [Prog] demos/08_comparison/main.py (CLI runner; table output)
-- [ ] [Prog] demos/08_comparison/backends/__init__.py
-- [ ] [Prog] demos/08_comparison/backends/cuml_backends.py (guarded import)
-- [ ] [QA]  tests/test_comparison.py (CPU-safe: SKIPPED rows when backends absent)
+All 8 requirements delivered (REQ-0001–0008). 72 CPU tests pass. 26 GPU tests ready for hardware validation.
 
 ---
 
@@ -69,3 +37,16 @@ REQ-0007 + REQ-0008 created. Sprint 5 goal: multi-backend comparison (Numba + Cu
 - [x] tests: test_naive_bayes (39 CPU tests)
 - [x] All TL nit fixes applied; benchmark runner complete (all 8 demos)
 - [x] Tech Lead final review — Approved
+
+### Sprint 5 — Multi-Backend Comparison (CLOSED — Conditional Approval)
+- [x] [Arch] ARCH-003 multi-backend design pattern
+- [x] [Prog] demos/01_core_apis/numba_vector_add.py, cupy_vector_add.py
+- [x] [Prog] demos/02_kmeans/numba_kmeans.py, cupy_kmeans.py
+- [x] [Prog] demos/03_pca/numba_pca.py, cupy_pca.py
+- [x] [Prog] demos/04_linear_model/numba_linear.py, cupy_linear.py
+- [x] [Prog] demos/05_naive_bayes/numba_nb.py, cupy_nb.py
+- [x] [Prog] demos/05_kernels/numba_kernels.py, cupy_kernels.py (P1)
+- [x] [Prog] benchmarks/run_all.py --backend flag + 3-way comparison table
+- [x] [Prog] demos/08_comparison/main.py + backends/cuml_backends.py (REQ-0008)
+- [x] [QA]  tests/test_numba_variants.py, test_cupy_variants.py, test_comparison.py (33 CPU tests)
+- [x] [TL]  TL-S5-001/003 nit fixes applied; Tech Lead Conditional Approval

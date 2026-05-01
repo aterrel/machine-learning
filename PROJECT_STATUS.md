@@ -1,8 +1,8 @@
 # PROJECT_STATUS.md — CUDA Python ML Demos
 
 **Last Updated**: 2026-05-01
-**Current Sprint**: Sprint 5 — Multi-Backend Comparison
-**All Sprints**: 1–4 CLOSED; Sprint 5 IN PROGRESS
+**Current Sprint**: Project Complete (Sprint 5 CLOSED)
+**All Sprints**: 1–5 CLOSED
 
 ---
 
@@ -10,24 +10,29 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟡 Yellow | REQ-0001–0006 delivered; REQ-0007–0008 created (Sprint 5) |
-| Architecture | 🟡 Yellow | ARCH-001, ARCH-002 Approved; ARCH-003 pending (multi-backend) |
-| Implementation | 🟡 Yellow | 8 demos delivered; Numba/CuPy/cuML variants pending |
-| Tests | 🟢 Green | 39 CPU tests pass; 15 GPU tests ready for hardware |
+| Requirements | 🟢 Green | REQ-0001–0008 all Active, all P0 requirements implemented |
+| Architecture | 🟢 Green | ARCH-001, ARCH-002, ARCH-003 Approved |
+| Implementation | 🟢 Green | 8 core demos + 12 backend variants + comparison demo delivered |
+| Tests | 🟢 Green | 72 CPU tests pass; 26 GPU tests ready for hardware |
 | Documentation | 🟡 Yellow | Inline docs complete; README and notebooks backlog |
 | CI/Build | 🔴 Red | pyproject.toml in place; no CI pipeline |
 
 ---
 
-## Sprint 5 — Multi-Backend Comparison (IN PROGRESS)
+## Sprint 5 Complete — Multi-Backend Comparison
 
-Goal: Add Numba-CUDA and CuPy variants of all algorithm demos (REQ-0007) and a unified comparison demo with cuML support (REQ-0008).
+12 backend variant files + unified comparison demo + 33 new CPU tests. TL Conditional Approval issued, all fixes applied.
 
-| Area | Status |
-|------|--------|
-| REQ-0007 (Numba + CuPy variants) | 🔴 Not started |
-| REQ-0008 (comparison demo + cuML) | 🔴 Not started |
-| ARCH-003 (multi-backend design) | 🔴 Not started |
+| Demo | REQ | Sprint |
+|------|-----|--------|
+| demos/01_core_apis/numba_vector_add.py, cupy_vector_add.py | REQ-0007 | Sprint 5 |
+| demos/02_kmeans/numba_kmeans.py, cupy_kmeans.py | REQ-0007 | Sprint 5 |
+| demos/03_pca/numba_pca.py, cupy_pca.py | REQ-0007 | Sprint 5 |
+| demos/04_linear_model/numba_linear.py, cupy_linear.py | REQ-0007 | Sprint 5 |
+| demos/05_naive_bayes/numba_nb.py, cupy_nb.py | REQ-0007 | Sprint 5 |
+| demos/05_kernels/numba_kernels.py, cupy_kernels.py | REQ-0007 | Sprint 5 |
+| demos/08_comparison/ (cuML comparison table) | REQ-0008 | Sprint 5 |
+| benchmarks/run_all.py --backend flag | REQ-0007 | Sprint 5 |
 
 ---
 
@@ -76,6 +81,7 @@ Run: `pytest tests/ -m "not gpu"` — 39 pass (2 skipped for Python version comp
 | Sprint 2 | CLOSED | Conditional Approval | demos 03+04+05_kernels, 22 CPU tests |
 | Sprint 3 | CLOSED | Conditional Approval | demos 06+07, 32 CPU tests |
 | Sprint 4 | CLOSED | **Approved** | demos 05_naive_bayes, 39 CPU tests |
+| Sprint 5 | CLOSED | Conditional Approval | 12 backend variants + comparison demo, 72 CPU tests |
 
 ---
 
