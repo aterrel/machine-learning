@@ -1,8 +1,8 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 6 IN PROGRESS — Slide-Based Documentation (2026-05-01)
+## Status: PROJECT COMPLETE — SPRINT 6 CLOSED (2026-05-01)
 
-All 8 algorithm requirements delivered (REQ-0001–0008). Sprint 6 adds REQ-0009: `docs/slides/` documentation.
+All 9 requirements delivered (REQ-0001–0009). 72 CPU tests pass. 26 GPU tests ready for hardware. 37 slides in docs/slides/.
 
 ---
 
@@ -24,7 +24,7 @@ All 8 algorithm requirements delivered (REQ-0001–0008). Sprint 6 adds REQ-0009
 
 ### P1 — Tech Lead Review
 
-- [ ] [TL] Sprint 6 code review — verify slide content accuracy and code snippet correctness
+- [x] [TL] Sprint 6 code review — verify slide content accuracy and code snippet correctness
 
 ---
 
