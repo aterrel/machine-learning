@@ -90,14 +90,15 @@ def test_numba_kernels_importable():
 # ---------------------------------------------------------------------------
 
 def test_numba_vector_add_raises_when_absent():
-    with mock.patch.dict(sys.modules, {"numba": None}):
-        mod = importlib.import_module("demos.01_core_apis.numba_vector_add")
-        mod_fresh = type(mod)(mod.__name__)
-        mod_fresh.__dict__.update(mod.__dict__)
-        mod_fresh._NUMBA_AVAILABLE = False  # simulate absent
+    mod = importlib.import_module("demos.01_core_apis.numba_vector_add")
+    orig = mod._NUMBA_AVAILABLE
+    try:
+        mod._NUMBA_AVAILABLE = False
         a = np.ones(16, dtype=np.float32)
         with pytest.raises(ImportError):
-            mod_fresh.vector_add_numba(a, a)
+            mod.vector_add_numba(a, a)
+    finally:
+        mod._NUMBA_AVAILABLE = orig
 
 
 def test_numba_kmeans_raises_when_absent():

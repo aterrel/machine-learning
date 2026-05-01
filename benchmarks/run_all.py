@@ -256,6 +256,8 @@ def _run_kmeans_comparison(n_samples: int) -> None:
             print(_fmt_cmp_row(bname, gpu_time, speedup, correct))
         except ImportError:
             print(_fmt_cmp_row(bname, 0, 0, None))
+        except SystemExit:
+            print(_fmt_cmp_row(bname, 0, 0, None))
         except Exception as exc:
             print(f"  {bname:<14} FAILED: {exc}")
 
@@ -289,6 +291,8 @@ def _run_pca_comparison(n_samples: int) -> None:
             speedup = cpu_time / gpu_time if gpu_time > 0 else float("inf")
             print(_fmt_cmp_row(bname, gpu_time, speedup, correct))
         except ImportError:
+            print(_fmt_cmp_row(bname, 0, 0, None))
+        except SystemExit:
             print(_fmt_cmp_row(bname, 0, 0, None))
         except Exception as exc:
             print(f"  {bname:<14} FAILED: {exc}")
@@ -326,6 +330,8 @@ def _run_linear_comparison(n_samples: int) -> None:
             speedup = cpu_time / gpu_time if gpu_time > 0 else float("inf")
             print(_fmt_cmp_row(bname, gpu_time, speedup, correct))
         except ImportError:
+            print(_fmt_cmp_row(bname, 0, 0, None))
+        except SystemExit:
             print(_fmt_cmp_row(bname, 0, 0, None))
         except Exception as exc:
             print(f"  {bname:<14} FAILED: {exc}")
@@ -371,6 +377,8 @@ def _run_nb_comparison(n_samples: int) -> None:
             speedup = cpu_time / gpu_time if gpu_time > 0 else float("inf")
             print(_fmt_cmp_row(bname, gpu_time, speedup, correct))
         except ImportError:
+            print(_fmt_cmp_row(bname, 0, 0, None))
+        except SystemExit:
             print(_fmt_cmp_row(bname, 0, 0, None))
         except Exception as exc:
             print(f"  {bname:<14} FAILED: {exc}")
@@ -466,66 +474,16 @@ def main() -> None:
             all_results.extend(run_05_naive_bayes(args.n_samples))
 
     elif args.backend in ("numba", "cupy"):
-        suffix = args.backend.replace("-", "_")
-        demo_map = {
-            "01_core_apis":    ("demos.01_core_apis", f"run_vector_add_{suffix}", {}),
-            "02_kmeans":       ("demos.02_kmeans",    f"kmeans_{suffix}", {"k": 8, "seed": 42}),
-            "03_pca":          ("demos.03_pca",       f"pca_{suffix}", {"n_components": 2}),
-            "04_linear_model": ("demos.04_linear_model", f"linear_regression_{suffix}", {}),
-            "05_naive_bayes":  ("demos.05_naive_bayes", f"gaussian_nb_{suffix}", {"n_classes": 4}),
-        }
-        for demo_key, (pkg, fn_name, extra_kwargs) in demo_map.items():
-            if args.demo not in (demo_key, "all"):
-                continue
-            print(f"\n[{demo_key}]")
-            try:
-                mod_name = f"{pkg}.{suffix}_" + demo_key.split("_", 1)[-1] if "0" not in pkg.split(".")[-1] else f"{pkg}.{suffix}_vector_add"
-                # Use importlib to handle numeric-prefixed packages
-                mod = importlib.import_module(f"{pkg}.{suffix}_{demo_key.split('_', 1)[-1]}")
-                fn = getattr(mod, fn_name)
-                from src.utils.timing import BenchmarkRunner
-                rng = np.random.default_rng(42)
-                # Build appropriate data per demo
-                if demo_key == "02_kmeans":
-                    X = rng.standard_normal((args.n_samples, 32)).astype(np.float32)
-                    gpu_time = BenchmarkRunner(n_repeats=3, warmup=1).time_cpu(fn, X, **extra_kwargs)
-                    result, *_ = fn(X, **extra_kwargs)
-                elif demo_key == "03_pca":
-                    X = rng.standard_normal((args.n_samples, 16)).astype(np.float32)
-                    gpu_time = BenchmarkRunner(n_repeats=3, warmup=1).time_cpu(fn, X, **extra_kwargs)
-                    result, *_ = fn(X, **extra_kwargs)
-                elif demo_key == "04_linear_model":
-                    n_features = 32
-                    X = rng.standard_normal((args.n_samples, n_features)).astype(np.float32)
-                    w_true = rng.standard_normal(n_features).astype(np.float32)
-                    y = X @ w_true + 0.01 * rng.standard_normal(args.n_samples).astype(np.float32)
-                    gpu_time = BenchmarkRunner(n_repeats=3, warmup=1).time_cpu(fn, X, y)
-                    result, *_ = fn(X, y)
-                elif demo_key == "05_naive_bayes":
-                    n_classes, n_features = 4, 16
-                    n_train = int(args.n_samples * 0.8)
-                    n_test = args.n_samples - n_train
-                    centers = rng.standard_normal((n_classes, n_features)) * 5.0
-                    X_parts, y_parts = [], []
-                    for c in range(n_classes):
-                        n = n_train // n_classes
-                        X_parts.append(rng.standard_normal((n, n_features)) * 0.5 + centers[c])
-                        y_parts.append(np.full(n, c, dtype=np.int32))
-                    X_tr = np.concatenate(X_parts).astype(np.float32)
-                    y_tr = np.concatenate(y_parts)
-                    X_te = rng.standard_normal((n_test, n_features)).astype(np.float32)
-                    gpu_time = BenchmarkRunner(n_repeats=3, warmup=1).time_cpu(fn, X_tr, y_tr, X_te, **extra_kwargs)
-                    result, *_ = fn(X_tr, y_tr, X_te, **extra_kwargs)
-                else:
-                    r = fn(n=args.n_samples)
-                    print(_fmt_row(r.demo_name, r.cpu_time_mean_s, r.gpu_time_mean_s, r.speedup, r.correct))
-                    all_results.append(r)
-                    continue
-                print(f"  {fn_name:<28} GPU: {gpu_time:7.3f}s")
-            except ImportError as exc:
-                print(f"  {demo_key} SKIPPED: {exc}")
-            except Exception as exc:
-                print(f"  {demo_key} FAILED: {exc}")
+        # Route through the comparison helpers — they handle missing backends gracefully.
+        # The requested backend row will show timing; absent backends show SKIPPED.
+        if args.demo in ("02_kmeans", "all"):
+            _run_kmeans_comparison(args.n_samples)
+        if args.demo in ("03_pca", "all"):
+            _run_pca_comparison(args.n_samples)
+        if args.demo in ("04_linear_model", "all"):
+            _run_linear_comparison(args.n_samples)
+        if args.demo in ("05_naive_bayes", "all"):
+            _run_nb_comparison(args.n_samples)
 
     print("\n" + "=" * 70)
     if all_results:
