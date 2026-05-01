@@ -6,8 +6,8 @@
 - [x] [Claude-Mgr] Close Sprint 2, open Sprint 3
 
 ### Product Manager
-- [ ] [Prod-Mgr] Review and finalize REQ-0005: NumPy/CuPy/PyTorch Interop
-- [ ] [Prod-Mgr] Review and finalize REQ-0006: Memory Management Patterns
+- [x] [Prod-Mgr] Review and finalize REQ-0005: NumPy/CuPy/PyTorch Interop
+- [x] [Prod-Mgr] Review and finalize REQ-0006: Memory Management Patterns
 
 ### Programmer
 - [x] [Prog] Fix TL-S2-002: Add comment/note about wall-clock timing for k-means GPU in run_all.py
@@ -18,8 +18,8 @@
 - [ ] [Prog] Generate Jupyter notebook versions of demos 01 and 02
 
 ### QA Agent
-- [ ] [QA] Write test plans for REQ-0005, REQ-0006
-- [ ] [QA] Implement `tests/test_interop.py`
+- [x] [QA] Write test plans for REQ-0005, REQ-0006
+- [x] [QA] Implement `tests/test_interop.py`
 
 ### Tech Lead
 - [!] [Tech-Lead] Sprint 3 code review (triggers at sprint end)
