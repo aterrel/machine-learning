@@ -88,6 +88,7 @@ def run_end_to_end_pipeline(n: int = 100_000) -> dict:
         print("  [2] ReLU kernel launched and synced")
 
         # Step 3: Optional CuPy — wrap the modified buffer as a CuPy array (zero-copy)
+        cp_arr = None  # guard: may stay None if CuPy unavailable or wrapping fails
         try:
             import cupy as cp
 

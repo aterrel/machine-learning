@@ -65,28 +65,23 @@ def demo_cuda_python_to_torch(n: int = 1_000_000) -> None:
             raise RuntimeError(f"H2D copy failed: {err.value}")
         stream.sync()
 
-        # Show what __cuda_array_interface__ looks like for this buffer
-        interface = {
-            "shape": (n,),
-            "typestr": "<f4",  # little-endian float32
-            "data": (buf.handle, False),  # (ptr, read_only=False)
-            "version": 3,
-        }
         print(f"  demo_cuda_python_to_torch (n={n:,})")
-        print(f"    __cuda_array_interface__: shape={interface['shape']}, ptr={buf.handle:#x}")
+        print(f"    Device buffer pointer: {buf.handle:#x}")
 
-        # Bridge via CuPy if available (cuda-python → CuPy → PyTorch)
+        # Bridge via CuPy if available (cuda-python → CuPy → PyTorch).
+        # Step 1: CuPy wraps the raw pointer via UnownedMemory (zero-copy).
+        # Step 2: torch.as_tensor() reads CuPy's __cuda_array_interface__ (zero-copy).
         try:
             import cupy as cp
 
-            # Zero-copy: CuPy wraps our device pointer
+            # Zero-copy: CuPy owns no memory — it references buf.handle directly.
             mem = cp.cuda.MemoryPointer(
                 cp.cuda.UnownedMemory(buf.handle, n_bytes, buf),
                 0,
             )
             cp_arr = cp.ndarray(shape=(n,), dtype=cp.float32, memptr=mem)
 
-            # Zero-copy: PyTorch wraps CuPy array via __cuda_array_interface__
+            # Zero-copy: PyTorch consumes CuPy's __cuda_array_interface__
             t = torch.as_tensor(cp_arr, device="cuda")
 
             gpu_sum = float(t.sum())

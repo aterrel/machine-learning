@@ -73,17 +73,8 @@ def demo_cuda_python_to_cupy(n: int = 1_000_000) -> None:
 
         stream.sync()
 
-        # Build the __cuda_array_interface__ dict pointing at buf.handle
-        # This is the zero-copy handoff: CuPy reads the same device pointer
-        interface = {
-            "shape": (n,),
-            "typestr": "<f4",  # little-endian float32
-            "data": (buf.handle, False),  # (ptr, read_only=False)
-            "version": 3,
-        }
-
-        # Wrap the device pointer as a CuPy array via MemoryPointer
-        # Zero-copy: no data movement, CuPy references the existing allocation
+        # Zero-copy: wrap the raw device pointer as a CuPy array via UnownedMemory.
+        # CuPy sees the same physical GPU memory; no data is moved.
         mem = cp.cuda.MemoryPointer(
             cp.cuda.UnownedMemory(buf.handle, n_bytes, buf),
             0,
@@ -98,11 +89,15 @@ def demo_cuda_python_to_cupy(n: int = 1_000_000) -> None:
         cpu_sum = float(x_host.sum())
         cpu_mean = float(x_host.mean())
 
+        # Show what the __cuda_array_interface__ protocol dict looks like.
+        # This is the standard cross-framework descriptor; libraries that accept
+        # __cuda_array_interface__ (e.g., Numba) can use it directly.
+        interface = cp_arr.__cuda_array_interface__
         print(f"  demo_cuda_python_to_cupy (n={n:,})")
         print(f"    NumPy  sum={cpu_sum:.4f}  mean={cpu_mean:.6f}")
         print(f"    CuPy   sum={gpu_sum:.4f}  mean={gpu_mean:.6f}")
         print(f"    Match: {abs(gpu_sum - cpu_sum) < 1.0}")
-        print(f"    __cuda_array_interface__ shape: {interface['shape']}, typestr: {interface['typestr']}")
+        print(f"    __cuda_array_interface__ shape: {interface['shape']}, typestr: {interface['typestr']}, ptr: {interface['data'][0]:#x}")
 
     stream.sync()
     stream.close()
