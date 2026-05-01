@@ -12,16 +12,16 @@
 - [x] [Claude-Mgr] Arch → Programmer handoff created
 
 ### Product Manager
-- [ ] [Prod-Mgr] Review and finalize REQ-0001: Core CUDA Python API Demonstrations
-- [ ] [Prod-Mgr] Review and finalize REQ-0002: GPU-Accelerated ML Algorithm Demos
-- [ ] [Prod-Mgr] Mark REQ-0001 and REQ-0002 as Active when approved
+- [x] [Prod-Mgr] Review and finalize REQ-0001: Core CUDA Python API Demonstrations
+- [x] [Prod-Mgr] Review and finalize REQ-0002: GPU-Accelerated ML Algorithm Demos
+- [x] [Prod-Mgr] Mark REQ-0001 and REQ-0002 as Active when approved
 
 ### Software Architect
 - [x] [Arch] ARCH-001: Overall System Architecture (created in bootstrap)
 - [x] [Arch] ARCH-002: CUDA Kernel Compilation and Launch Pipeline (created in bootstrap)
-- [ ] [Arch] Review ARCH-001 and ARCH-002 — mark as Approved when satisfied
-- [ ] [Arch] Issue Arch → Programmer handoff (update HANDOFF doc with approval)
-- [ ] [Arch] Create pyproject.toml with ruff + pytest config
+- [x] [Arch] Review ARCH-001 and ARCH-002 — mark as Approved when satisfied
+- [x] [Arch] Issue Arch → Programmer handoff (update HANDOFF doc with approval)
+- [x] [Arch] Create pyproject.toml with ruff + pytest config
 
 ### Programmer
 - [x] [Prog] Scaffold `src/utils/device.py`
@@ -34,12 +34,12 @@
 - [x] [Prog] Implement `benchmarks/run_all.py` — unified benchmark CLI
 
 ### QA Agent
-- [ ] [QA] Write test plan for REQ-0001: Core CUDA Python API Demonstrations (can start now)
-- [ ] [QA] Write test plan for REQ-0002: GPU-Accelerated ML Algorithm Demos (can start now)
-- [ ] [QA] Implement `tests/conftest.py` — GPU pytest mark, device fixture
-- [ ] [QA] Implement `tests/test_device.py`
-- [ ] [QA] Implement `tests/test_kernels.py`
-- [ ] [QA] Implement `tests/test_kmeans.py`
+- [x] [QA] Write test plan for REQ-0001: Core CUDA Python API Demonstrations (agents/requirements/TEST-PLAN-REQ-0001.md)
+- [x] [QA] Write test plan for REQ-0002: GPU-Accelerated ML Algorithm Demos (agents/requirements/TEST-PLAN-REQ-0002.md)
+- [x] [QA] Implement `tests/conftest.py` — GPU pytest mark, device fixture
+- [x] [QA] Implement `tests/test_device.py`
+- [x] [QA] Implement `tests/test_kernels.py`
+- [x] [QA] Implement `tests/test_kmeans.py`
 
 ### Tech Lead
 - [ ] [Tech-Lead] Sprint 1 code review (Programmer has delivered — ready for review)
