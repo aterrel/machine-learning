@@ -6,7 +6,7 @@
 - [x] [Claude-Mgr] Close Sprint 3, open Sprint 4
 
 ### Product Manager
-- [ ] [Prod-Mgr] Final review of all REQ documents against completed implementation
+- [x] [Prod-Mgr] Final review of all REQ documents against completed implementation
 
 ### Programmer
 - [x] [Prog] Fix TL-S3-004 (Nit): simplify except clause in demos/07_memory/main.py demo_oom_recovery
@@ -15,7 +15,7 @@
 - [ ] [Prog] Generate Jupyter notebook versions of demos 01 and 02
 
 ### Tech Lead
-- [ ] [Tech-Lead] Final architecture review (Sprint 4)
+- [x] [Tech-Lead] Final architecture review (Sprint 4)
 
 ---
 
