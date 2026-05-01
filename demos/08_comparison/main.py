@@ -86,8 +86,11 @@ def _print_table_row(name: str, elapsed: float, speedup: float, correct) -> None
     if correct is None:
         print(f"  {name:<{_COL}} {'SKIPPED (not installed)':>38}")
     else:
-        corr_str = str(correct) if correct is not None else "--"
-        print(f"  {name:<{_COL}} {elapsed:8.3f}s  {speedup:8.1f}x  {corr_str:>8}")
+        print(f"  {name:<{_COL}} {elapsed:8.3f}s  {speedup:8.1f}x  {str(correct):>8}")
+
+
+def _print_baseline_row(name: str, elapsed: float) -> None:
+    print(f"  {name:<{_COL}} {elapsed:8.3f}s  (baseline)")
 
 # ---------------------------------------------------------------------------
 # Per-algorithm comparison runners
@@ -116,7 +119,7 @@ def run_kmeans_comparison(n_samples: int) -> None:
             if cpu_time is None:
                 cpu_time = elapsed
                 ref_centroids = centroids
-                _print_table_row(name, elapsed, 1.0, None)
+                _print_baseline_row(name, elapsed)
             else:
                 speedup = cpu_time / elapsed if elapsed > 0 else float("inf")
                 max_err = float(np.max(np.abs(np.sort(ref_centroids, axis=0) - np.sort(centroids, axis=0))))
@@ -124,6 +127,8 @@ def run_kmeans_comparison(n_samples: int) -> None:
                 _print_table_row(name, elapsed, speedup, correct)
         except ImportError:
             _print_table_row(name, 0, 0, None)
+        except SystemExit:
+            print(f"  {name:<{_COL}} SKIPPED (no GPU / cuda-python not installed)")
         except Exception as exc:
             print(f"  {name:<{_COL}} ERROR: {exc}")
 
@@ -151,7 +156,7 @@ def run_pca_comparison(n_samples: int) -> None:
             if cpu_time is None:
                 cpu_time = elapsed
                 ref_comps = comps
-                _print_table_row(name, elapsed, 1.0, None)
+                _print_baseline_row(name, elapsed)
             else:
                 speedup = cpu_time / elapsed if elapsed > 0 else float("inf")
                 alignment = float(np.min(np.abs(np.diag(ref_comps @ comps.T))))
@@ -159,6 +164,8 @@ def run_pca_comparison(n_samples: int) -> None:
                 _print_table_row(name, elapsed, speedup, correct)
         except ImportError:
             _print_table_row(name, 0, 0, None)
+        except SystemExit:
+            print(f"  {name:<{_COL}} SKIPPED (no GPU / cuda-python not installed)")
         except Exception as exc:
             print(f"  {name:<{_COL}} ERROR: {exc}")
 
@@ -189,7 +196,7 @@ def run_linear_comparison(n_samples: int) -> None:
             if cpu_time is None:
                 cpu_time = elapsed
                 ref_w = w
-                _print_table_row(name, elapsed, 1.0, None)
+                _print_baseline_row(name, elapsed)
             else:
                 speedup = cpu_time / elapsed if elapsed > 0 else float("inf")
                 max_err = float(np.max(np.abs(ref_w - w)))
@@ -197,6 +204,8 @@ def run_linear_comparison(n_samples: int) -> None:
                 _print_table_row(name, elapsed, speedup, correct)
         except ImportError:
             _print_table_row(name, 0, 0, None)
+        except SystemExit:
+            print(f"  {name:<{_COL}} SKIPPED (no GPU / cuda-python not installed)")
         except Exception as exc:
             print(f"  {name:<{_COL}} ERROR: {exc}")
 
@@ -235,7 +244,7 @@ def run_naive_bayes_comparison(n_samples: int) -> None:
             if cpu_time is None:
                 cpu_time = elapsed
                 ref_preds = preds
-                _print_table_row(name, elapsed, 1.0, None)
+                _print_baseline_row(name, elapsed)
             else:
                 speedup = cpu_time / elapsed if elapsed > 0 else float("inf")
                 agreement = float((ref_preds == preds).mean())
@@ -243,6 +252,8 @@ def run_naive_bayes_comparison(n_samples: int) -> None:
                 _print_table_row(name, elapsed, speedup, correct)
         except ImportError:
             _print_table_row(name, 0, 0, None)
+        except SystemExit:
+            print(f"  {name:<{_COL}} SKIPPED (no GPU / cuda-python not installed)")
         except Exception as exc:
             print(f"  {name:<{_COL}} ERROR: {exc}")
 
