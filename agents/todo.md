@@ -9,9 +9,9 @@
 - [ ] [Prod-Mgr] Final review of all REQ documents against completed implementation
 
 ### Programmer
-- [ ] [Prog] Fix TL-S3-004 (Nit): simplify except clause in demos/07_memory/main.py demo_oom_recovery
-- [ ] [Prog] Fix TL-S3-005 (Nit): add clarifying comment to demo_basic_alloc
-- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (P1, deferred ×2)
+- [x] [Prog] Fix TL-S3-004 (Nit): simplify except clause in demos/07_memory/main.py demo_oom_recovery
+- [x] [Prog] Fix TL-S3-005 (Nit): add clarifying comment to demo_basic_alloc
+- [x] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (P1, deferred ×2)
 - [ ] [Prog] Generate Jupyter notebook versions of demos 01 and 02
 
 ### Tech Lead

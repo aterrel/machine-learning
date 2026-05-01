@@ -40,6 +40,7 @@ def demo_basic_alloc() -> None:
     mem_before = query_device_memory(device)
     print(f"  Before alloc : free={mem_before['free_gb']:.3f} GB / total={mem_before['total_gb']:.3f} GB")
 
+    # Intentionally using explicit close() here (contrast with demo_context_manager which shows the context manager pattern)
     buf = DeviceBuffer(n_bytes, device=device)
     mem_during = query_device_memory(device)
     alloc_gb = n_bytes / (1024 ** 3)
@@ -162,7 +163,7 @@ def demo_oom_recovery() -> None:
         # Should not reach here
         buf.close()
         print("  ERROR: OOM was NOT raised — unexpected success")
-    except (RuntimeError, MemoryError, Exception) as exc:
+    except Exception as exc:
         recovered = True
         print(f"  OOM caught: {type(exc).__name__}: {exc}")
 
