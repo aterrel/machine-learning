@@ -10,7 +10,7 @@
 - [x] [Prod-Mgr] Review and finalize REQ-0004: Benchmarking Infrastructure
 
 ### Programmer
-- [ ] [Prog] Fix TL-004: Implement `tests/test_memory.py`
+- [x] [Prog] Fix TL-004: Implement `tests/test_memory.py` (delivered by QA)
 - [x] [Prog] Fix TL-005: Remove duplicate import in `demos/01_core_apis/vector_add.py`
 - [x] [Prog] Fix TL-006: Use BenchmarkRunner in `benchmarks/run_all.py`
 - [x] [Prog] Fix TL-007: Document `cache_key=None` behavior in `src/kernels/compiler.py`
