@@ -10,17 +10,17 @@ All 8 algorithm requirements delivered (REQ-0001–0008). Sprint 6 adds REQ-0009
 
 ### P0 — Programmer
 
-- [ ] [Prog] Create `docs/slides/README.md` index
-- [ ] [Prog] Create `docs/slides/00_introduction/` (2 slides: what_is_cuda_python, project_overview)
-- [ ] [Prog] Create `docs/slides/01_core_apis/` (6 slides: device_setup, memory_allocation, kernel_compilation, kernel_launch, pinned_memory, backend_comparison)
-- [ ] [Prog] Create `docs/slides/02_kmeans/` (5 slides: algorithm, cpu_baseline, gpu_kernel, cupy_variant, numba_variant)
-- [ ] [Prog] Create `docs/slides/03_pca/` (4 slides: algorithm, gpu_covariance, cupy_linalg, backend_comparison)
-- [ ] [Prog] Create `docs/slides/04_linear_model/` (3 slides: normal_equations, gpu_xtx_kernel, backend_comparison)
-- [ ] [Prog] Create `docs/slides/05_kernels/` (4 slides: gemm_overview, gemm_kernel, relu_softmax, backend_comparison)
-- [ ] [Prog] Create `docs/slides/05_naive_bayes/` (4 slides: algorithm, gpu_log_likelihood, cupy_broadcasting, backend_comparison)
-- [ ] [Prog] Create `docs/slides/06_interop/` (4 slides: cuda_array_interface, cupy_interop, pytorch_interop, pipeline)
-- [ ] [Prog] Create `docs/slides/07_memory/` (3 slides: device_allocation, pinned_memory, oom_recovery)
-- [ ] [Prog] Create `docs/slides/08_comparison/` (2 slides: abstraction_levels, reading_the_table)
+- [x] [Prog] Create `docs/slides/README.md` index
+- [x] [Prog] Create `docs/slides/00_introduction/` (2 slides: what_is_cuda_python, project_overview)
+- [x] [Prog] Create `docs/slides/01_core_apis/` (6 slides: device_setup, memory_allocation, kernel_compilation, kernel_launch, pinned_memory, backend_comparison)
+- [x] [Prog] Create `docs/slides/02_kmeans/` (5 slides: algorithm, cpu_baseline, gpu_kernel, cupy_variant, numba_variant)
+- [x] [Prog] Create `docs/slides/03_pca/` (4 slides: algorithm, gpu_covariance, cupy_linalg, backend_comparison)
+- [x] [Prog] Create `docs/slides/04_linear_model/` (3 slides: normal_equations, gpu_xtx_kernel, backend_comparison)
+- [x] [Prog] Create `docs/slides/05_kernels/` (4 slides: gemm_overview, gemm_kernel, relu_softmax, backend_comparison)
+- [x] [Prog] Create `docs/slides/05_naive_bayes/` (4 slides: algorithm, gpu_log_likelihood, cupy_broadcasting, backend_comparison)
+- [x] [Prog] Create `docs/slides/06_interop/` (4 slides: cuda_array_interface, cupy_interop, pytorch_interop, pipeline)
+- [x] [Prog] Create `docs/slides/07_memory/` (3 slides: device_allocation, pinned_memory, oom_recovery)
+- [x] [Prog] Create `docs/slides/08_comparison/` (2 slides: abstraction_levels, reading_the_table)
 
 ### P1 — Tech Lead Review
 
