@@ -38,5 +38,6 @@ class KernelCompiler:
 
         compiled = CompiledKernel(kernel, stream)
         if cache_key is not None:
+            # cache_key=None: kernel is compiled fresh each call and not stored in cache
             self._cache[key] = compiled
         return compiled

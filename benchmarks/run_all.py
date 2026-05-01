@@ -29,8 +29,6 @@ def run_01_core_apis(n_samples: int) -> list:
 def run_02_kmeans(n_samples: int) -> list:
     results = []
     try:
-        import time
-
         import numpy as np
 
         from src.utils.timing import BenchmarkResult, BenchmarkRunner
@@ -46,9 +44,7 @@ def run_02_kmeans(n_samples: int) -> list:
         cpu_time = runner.time_cpu(cpu_mod.kmeans_cpu, X, k=8, seed=42)
 
         centroids_gpu, _, _ = gpu_mod.kmeans_gpu(X, k=8, seed=42)
-        t0 = time.perf_counter()
-        gpu_mod.kmeans_gpu(X, k=8, seed=42)
-        gpu_time = time.perf_counter() - t0
+        gpu_time = runner.time_cpu(gpu_mod.kmeans_gpu, X, k=8, seed=42)
 
         max_err = float(
             np.max(

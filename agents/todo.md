@@ -11,13 +11,13 @@
 
 ### Programmer
 - [ ] [Prog] Fix TL-004: Implement `tests/test_memory.py`
-- [ ] [Prog] Fix TL-005: Remove duplicate import in `demos/01_core_apis/vector_add.py`
-- [ ] [Prog] Fix TL-006: Use BenchmarkRunner in `benchmarks/run_all.py`
-- [ ] [Prog] Fix TL-007: Document `cache_key=None` behavior in `src/kernels/compiler.py`
-- [ ] [Prog] Implement `demos/03_pca/` — GPU PCA via covariance matrix (REQ-0002)
-- [ ] [Prog] Implement `demos/04_linear_model/` — GPU linear regression normal equation (REQ-0002)
-- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (REQ-0002)
-- [ ] [Prog] Implement `demos/05_kernels/` — GEMM + ReLU + softmax kernels (REQ-0003)
+- [x] [Prog] Fix TL-005: Remove duplicate import in `demos/01_core_apis/vector_add.py`
+- [x] [Prog] Fix TL-006: Use BenchmarkRunner in `benchmarks/run_all.py`
+- [x] [Prog] Fix TL-007: Document `cache_key=None` behavior in `src/kernels/compiler.py`
+- [x] [Prog] Implement `demos/03_pca/` — GPU PCA via covariance matrix (REQ-0002)
+- [x] [Prog] Implement `demos/04_linear_model/` — GPU linear regression normal equation (REQ-0002)
+- [ ] [Prog] Implement `demos/05_naive_bayes/` — GPU Gaussian naive Bayes (REQ-0002) [deferred Sprint 3]
+- [x] [Prog] Implement `demos/05_kernels/` — GEMM + ReLU + softmax kernels (REQ-0003)
 
 ### QA Agent
 - [ ] [QA] Write test plans for REQ-0003, REQ-0004

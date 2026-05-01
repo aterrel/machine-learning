@@ -109,8 +109,6 @@ def run_vector_add(n: int = 1_000_000):
     correct = max_err < 1e-5
     speedup = cpu_time / gpu_time if gpu_time > 0 else float("inf")
 
-    from src.utils.timing import BenchmarkResult
-
     result = BenchmarkResult(
         demo_name="vector_add",
         cpu_time_mean_s=cpu_time,
