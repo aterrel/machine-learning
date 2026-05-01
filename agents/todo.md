@@ -24,25 +24,25 @@
 - [ ] [Arch] Create pyproject.toml with ruff + pytest config
 
 ### Programmer
-- [!] [Prog] Scaffold `src/utils/device.py` (blocked — await ARCH handoff approval)
-- [!] [Prog] Scaffold `src/utils/memory.py` — DeviceBuffer context manager (blocked)
-- [!] [Prog] Scaffold `src/utils/timing.py` — BenchmarkResult, BenchmarkRunner (blocked)
-- [!] [Prog] Implement `src/kernels/compiler.py` — KernelCompiler via NVRTC (blocked)
-- [!] [Prog] Implement `src/kernels/compiled_kernel.py` — CompiledKernel.launch() (blocked)
-- [!] [Prog] Implement `demos/01_core_apis/` — device info + vector-add (blocked)
-- [!] [Prog] Implement `demos/02_kmeans/` — GPU k-means with CPU baseline (blocked)
-- [!] [Prog] Implement `benchmarks/run_all.py` — unified benchmark CLI (blocked)
+- [x] [Prog] Scaffold `src/utils/device.py`
+- [x] [Prog] Scaffold `src/utils/memory.py` — DeviceBuffer context manager
+- [x] [Prog] Scaffold `src/utils/timing.py` — BenchmarkResult, BenchmarkRunner
+- [x] [Prog] Implement `src/kernels/compiler.py` — KernelCompiler via NVRTC
+- [x] [Prog] Implement `src/kernels/compiled_kernel.py` — CompiledKernel.launch()
+- [x] [Prog] Implement `demos/01_core_apis/` — device info + vector-add + pinned memory
+- [x] [Prog] Implement `demos/02_kmeans/` — GPU k-means with CPU baseline
+- [x] [Prog] Implement `benchmarks/run_all.py` — unified benchmark CLI
 
 ### QA Agent
 - [ ] [QA] Write test plan for REQ-0001: Core CUDA Python API Demonstrations (can start now)
 - [ ] [QA] Write test plan for REQ-0002: GPU-Accelerated ML Algorithm Demos (can start now)
-- [!] [QA] Implement `tests/conftest.py` — GPU pytest mark, device fixture (blocked — await src/ scaffold)
-- [!] [QA] Implement `tests/test_device.py` (blocked)
-- [!] [QA] Implement `tests/test_kernels.py` (blocked)
-- [!] [QA] Implement `tests/test_kmeans.py` (blocked)
+- [ ] [QA] Implement `tests/conftest.py` — GPU pytest mark, device fixture
+- [ ] [QA] Implement `tests/test_device.py`
+- [ ] [QA] Implement `tests/test_kernels.py`
+- [ ] [QA] Implement `tests/test_kmeans.py`
 
 ### Tech Lead
-- [!] [Tech-Lead] Sprint 1 code review (blocked — triggers at sprint end, after Programmer delivers)
+- [ ] [Tech-Lead] Sprint 1 code review (Programmer has delivered — ready for review)
 
 ---
 
