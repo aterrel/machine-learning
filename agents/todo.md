@@ -22,7 +22,7 @@
 - [x] [QA] Implement `tests/test_interop.py`
 
 ### Tech Lead
-- [!] [Tech-Lead] Sprint 3 code review (triggers at sprint end)
+- [x] [Tech-Lead] Sprint 3 code review — Conditional Approval (2026-05-01)
 
 ---
 
