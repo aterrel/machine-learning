@@ -85,8 +85,13 @@ def demo_pinned_vs_pageable(n_mb: int = 128) -> dict:
     return {"pinned_gb_s": pinned_gb_s, "pageable_gb_s": pageable_gb_s, "speedup": speedup}
 
 
-def load_from_disk_to_device(path: str) -> int:
-    """Load .npy file into pinned buffer, transfer to device; return device pointer."""
+def load_from_disk_to_device(path: str) -> tuple[int, object]:
+    """Load .npy file into pinned buffer, transfer to device.
+
+    Returns (device_ptr, device_buf) where device_ptr is the raw integer pointer
+    and device_buf is the DeviceBuffer object. The caller MUST free device memory
+    by calling device_buf.close() or using it as a context manager.
+    """
     try:
         from cuda.bindings import cudart
 
@@ -104,9 +109,9 @@ def load_from_disk_to_device(path: str) -> int:
     ptr, pinned_arr = alloc_pinned(n_bytes)
     pinned_arr[:] = arr
 
-    buf = device.allocate(n_bytes, stream=stream)
+    d_buf = DeviceBuffer(n_bytes, stream=stream, device=device)
     (err,) = cudart.cudaMemcpy(
-        int(buf.handle),
+        d_buf.handle,
         ptr,
         n_bytes,
         cudart.cudaMemcpyKind.cudaMemcpyHostToDevice,
@@ -116,18 +121,24 @@ def load_from_disk_to_device(path: str) -> int:
     free_pinned(ptr)
 
     if err.value != 0:
+        d_buf.close()
         raise RuntimeError(f"H2D copy failed: {err.value}")
 
-    return int(buf.handle)
+    return d_buf.handle, d_buf
 
 
-def load_from_url_to_device(url: str, fallback_shape: tuple) -> int:
-    """Fetch .npy data from URL or fall back to random array; return device pointer."""
+def load_from_url_to_device(url: str, fallback_shape: tuple) -> tuple[int, object]:
+    """Fetch .npy data from URL or fall back to random array; transfer to device.
+
+    Returns (device_ptr, device_buf) where device_ptr is the raw integer pointer
+    and device_buf is the DeviceBuffer object. The caller MUST free device memory
+    by calling device_buf.close() or using it as a context manager.
+    """
     try:
         from cuda.bindings import cudart
 
         from src.utils.device import get_device
-        from src.utils.memory import alloc_pinned, free_pinned
+        from src.utils.memory import DeviceBuffer, alloc_pinned, free_pinned
     except ImportError as exc:
         raise RuntimeError(f"Missing dependency: {exc}") from exc
 
@@ -151,9 +162,9 @@ def load_from_url_to_device(url: str, fallback_shape: tuple) -> int:
     ptr, pinned_arr = alloc_pinned(n_bytes)
     pinned_arr[:] = arr
 
-    buf = device.allocate(n_bytes, stream=stream)
+    d_buf = DeviceBuffer(n_bytes, stream=stream, device=device)
     (err,) = cudart.cudaMemcpy(
-        int(buf.handle),
+        d_buf.handle,
         ptr,
         n_bytes,
         cudart.cudaMemcpyKind.cudaMemcpyHostToDevice,
@@ -163,6 +174,7 @@ def load_from_url_to_device(url: str, fallback_shape: tuple) -> int:
     free_pinned(ptr)
 
     if err.value != 0:
+        d_buf.close()
         raise RuntimeError(f"H2D copy failed: {err.value}")
 
-    return int(buf.handle)
+    return d_buf.handle, d_buf

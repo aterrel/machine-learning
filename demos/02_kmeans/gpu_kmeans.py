@@ -115,6 +115,10 @@ def kmeans_gpu(
     labels_bytes = n_samples * np.dtype(np.int32).itemsize
     counts_bytes = k * np.dtype(np.int32).itemsize
 
+    # Separate RNG for empty-cluster reinitialisation; seed+1 avoids correlation
+    # with the centroid initialisation RNG above.
+    rng_empty = np.random.default_rng(seed + 1)
+
     grid_samples = assign_kernel.compute_grid_1d(n_samples, BLOCK_SIZE)
     block = (BLOCK_SIZE, 1, 1)
 
@@ -198,7 +202,6 @@ def kmeans_gpu(
             _d2h(new_centroids_host, d_new_centroids.handle, c_bytes)
             _d2h(counts_host, d_counts.handle, counts_bytes)
 
-            rng_empty = np.random.default_rng(seed)
             for j in range(k):
                 if counts_host[j] > 0:
                     new_centroids_host[j] /= counts_host[j]

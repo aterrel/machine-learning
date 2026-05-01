@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import sys
+import tempfile
+
+import numpy as np
 
 
 def main() -> None:
@@ -38,6 +41,27 @@ def main() -> None:
     print(f"Pinned   : {bw['pinned_gb_s']:.2f} GB/s")
     print(f"Pageable : {bw['pageable_gb_s']:.2f} GB/s")
     print(f"Speedup  : {bw['speedup']:.2f}x")
+
+    print("\n--- Load from Disk to Device (AC-8) ---")
+    from .pinned_memory import load_from_disk_to_device
+
+    rng = np.random.default_rng(42)
+    synthetic = rng.random(1024, dtype=np.float32)
+    with tempfile.NamedTemporaryFile(suffix=".npy", delete=False) as tmp:
+        tmp_path = tmp.name
+    np.save(tmp_path, synthetic)
+    dev_ptr, dev_buf = load_from_disk_to_device(tmp_path)
+    print(f"Loaded {synthetic.nbytes} bytes from disk to device pointer 0x{dev_ptr:x}")
+    dev_buf.close()
+
+    print("\n--- Load from URL to Device (AC-9) ---")
+    from .pinned_memory import load_from_url_to_device
+
+    dev_ptr2, dev_buf2 = load_from_url_to_device(
+        "https://example.invalid/data.npy", fallback_shape=(1024,)
+    )
+    print(f"Data on device at pointer 0x{dev_ptr2:x} ({1024 * 4} bytes)")
+    dev_buf2.close()
 
     print("\nDemo 01 complete.")
 
