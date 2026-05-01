@@ -42,7 +42,7 @@
 - [x] [QA] Implement `tests/test_kmeans.py`
 
 ### Tech Lead
-- [ ] [Tech-Lead] Sprint 1 code review (Programmer has delivered — ready for review)
+- [x] [Tech-Lead] Sprint 1 code review — Conditional Approval issued (2026-05-01); TL-001/TL-002 must fix before Sprint 2 close
 
 ---
 
