@@ -1,8 +1,8 @@
 # PROJECT_STATUS.md — CUDA Python ML Demos
 
 **Last Updated**: 2026-05-01
-**Current Sprint**: Project Complete
-**All Sprints**: 1–4 CLOSED
+**Current Sprint**: Sprint 5 — Multi-Backend Comparison
+**All Sprints**: 1–4 CLOSED; Sprint 5 IN PROGRESS
 
 ---
 
@@ -10,16 +10,28 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟢 Green | REQ-0001–0006 all Active, all P0 requirements implemented |
-| Architecture | 🟢 Green | ARCH-001, ARCH-002 Approved |
-| Implementation | 🟢 Green | 8 demos delivered across all 6 REQs |
+| Requirements | 🟡 Yellow | REQ-0001–0006 delivered; REQ-0007–0008 created (Sprint 5) |
+| Architecture | 🟡 Yellow | ARCH-001, ARCH-002 Approved; ARCH-003 pending (multi-backend) |
+| Implementation | 🟡 Yellow | 8 demos delivered; Numba/CuPy/cuML variants pending |
 | Tests | 🟢 Green | 39 CPU tests pass; 15 GPU tests ready for hardware |
 | Documentation | 🟡 Yellow | Inline docs complete; README and notebooks backlog |
 | CI/Build | 🔴 Red | pyproject.toml in place; no CI pipeline |
 
 ---
 
-## Project Complete — Summary
+## Sprint 5 — Multi-Backend Comparison (IN PROGRESS)
+
+Goal: Add Numba-CUDA and CuPy variants of all algorithm demos (REQ-0007) and a unified comparison demo with cuML support (REQ-0008).
+
+| Area | Status |
+|------|--------|
+| REQ-0007 (Numba + CuPy variants) | 🔴 Not started |
+| REQ-0008 (comparison demo + cuML) | 🔴 Not started |
+| ARCH-003 (multi-backend design) | 🔴 Not started |
+
+---
+
+## Sprint 4 Complete — Summary
 
 All 6 requirements (REQ-0001 through REQ-0006) delivered across 4 sprints. Tech Lead issued **Approved** on Sprint 4 final review.
 
