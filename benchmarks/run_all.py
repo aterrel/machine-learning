@@ -167,11 +167,62 @@ def run_05_kernels(_n_samples: int) -> list:
     return results
 
 
+def run_05_naive_bayes(n_samples: int) -> list:
+    results = []
+    try:
+        import numpy as np
+
+        from src.utils.timing import BenchmarkResult, BenchmarkRunner
+
+        cpu_mod = importlib.import_module("demos.05_naive_bayes.cpu_nb")
+        gpu_mod = importlib.import_module("demos.05_naive_bayes.gpu_nb")
+
+        rng = np.random.default_rng(42)
+        n_classes, n_features = 4, 16
+        n_train = int(n_samples * 0.8)
+        n_test = n_samples - n_train
+        centers = rng.standard_normal((n_classes, n_features)) * 5.0
+        X_parts, y_parts = [], []
+        for c in range(n_classes):
+            n = n_train // n_classes
+            X_parts.append(rng.standard_normal((n, n_features)) * 0.5 + centers[c])
+            y_parts.append(np.full(n, c, dtype=np.int32))
+        X_tr = np.concatenate(X_parts).astype(np.float32)
+        y_tr = np.concatenate(y_parts)
+        X_te = rng.standard_normal((n_test, n_features)).astype(np.float32)
+
+        runner = BenchmarkRunner(n_repeats=3, warmup=1)
+
+        cpu_preds, *_ = cpu_mod.gaussian_nb_cpu(X_tr, y_tr, X_te, n_classes=n_classes)
+        cpu_time = runner.time_cpu(cpu_mod.gaussian_nb_cpu, X_tr, y_tr, X_te, n_classes=n_classes)
+
+        gpu_preds, *_ = gpu_mod.gaussian_nb_gpu(X_tr, y_tr, X_te, n_classes=n_classes)
+        gpu_time = runner.time_cpu(gpu_mod.gaussian_nb_gpu, X_tr, y_tr, X_te, n_classes=n_classes)
+        # wall-clock timing; gaussian_nb_gpu manages its own stream internally
+
+        agreement = float((cpu_preds == gpu_preds).mean())
+        correct = agreement > 0.99
+        speedup = cpu_time / gpu_time if gpu_time > 0 else float("inf")
+        r = BenchmarkResult(
+            demo_name="naive_bayes",
+            cpu_time_mean_s=cpu_time,
+            gpu_time_mean_s=gpu_time,
+            speedup=speedup,
+            correct=correct,
+            max_abs_error=float(1.0 - agreement),
+        )
+        results.append(r)
+        print(_fmt_row(r.demo_name, r.cpu_time_mean_s, r.gpu_time_mean_s, r.speedup, r.correct))
+    except Exception as exc:
+        print(f"  05_naive_bayes FAILED: {exc}")
+    return results
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run all CUDA Python ML demo benchmarks")
     parser.add_argument(
         "--demo",
-        choices=["01_core_apis", "02_kmeans", "03_pca", "04_linear_model", "05_kernels", "all"],
+        choices=["01_core_apis", "02_kmeans", "03_pca", "04_linear_model", "05_kernels", "05_naive_bayes", "all"],
         default="all",
     )
     parser.add_argument("--n-samples", type=int, default=10_000)
@@ -215,6 +266,10 @@ def main() -> None:
     if args.demo in ("05_kernels", "all"):
         print("\n[05_kernels]")
         all_results.extend(run_05_kernels(args.n_samples))
+
+    if args.demo in ("05_naive_bayes", "all"):
+        print("\n[05_naive_bayes]")
+        all_results.extend(run_05_naive_bayes(args.n_samples))
 
     print("\n" + "=" * 70)
     print(f"Total demos run: {len(all_results)}")

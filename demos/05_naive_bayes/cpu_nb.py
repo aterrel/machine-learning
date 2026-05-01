@@ -10,7 +10,7 @@ def gaussian_nb_cpu(
     y_train: np.ndarray,  # (n_train,) int32 class labels [0..k-1]
     X_test: np.ndarray,   # (n_test, n_features) float32
     n_classes: int,
-) -> tuple[np.ndarray, float]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Gaussian Naive Bayes: fit on train, predict on test.
 
     For each class c:
