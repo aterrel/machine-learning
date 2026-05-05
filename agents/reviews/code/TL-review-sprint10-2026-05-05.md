@@ -3,7 +3,7 @@ Date: 2026-05-05
 Sprint: 10 — README + Physical GPU Validation
 Reviewer: Tech Lead
 
-## Verdict: Changes Required
+## Verdict: Approved
 
 ## Summary
 
@@ -120,7 +120,17 @@ No other changes required. The single-demo commands (`python -m demos.01_core_ap
 - [x] Demo Overview table lists all 10 demos
 - [x] All relative links resolve to existing files
 - [x] Quickstart commands are executable (digit-prefixed `-m` form verified working)
-- [~] `python -m demos.run_all` — BROKEN (C-1); must be replaced with `python benchmarks/run_all.py`
+- [x] `python benchmarks/run_all.py` — FIXED (C-1 resolved)
 - [x] CI badge present
 - [x] README under 300 lines (156 lines)
 - [x] gpu-ci.yml has cupy and torch in pip install
+
+---
+
+## Re-Review: C-1 Fix (commit 24dbfd9)
+Date: 2026-05-05
+
+Fix verified: `python -m demos.run_all` replaced with `python benchmarks/run_all.py`.
+`benchmarks/run_all.py` confirmed to exist. No new issues introduced.
+
+**Final Verdict: Approved**
