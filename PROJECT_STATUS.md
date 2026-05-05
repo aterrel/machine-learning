@@ -1,8 +1,8 @@
 # PROJECT_STATUS.md — CUDA Python ML Demos
 
 **Last Updated**: 2026-05-05
-**Current Sprint**: Sprint 9 — OPEN (CI/CD Pipeline + Jupyter Notebooks)
-**All Sprints**: 1–8 CLOSED
+**Current Sprint**: Sprint 10 — OPEN (README + Physical GPU Validation)
+**All Sprints**: 1–9 CLOSED
 
 ---
 
@@ -10,12 +10,12 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟡 Yellow | REQ-0001–0013 implemented; REQ-0014 planned (Sprint 10) |
-| Architecture | 🟡 Yellow | ARCH-001–007 complete; ARCH-006/007 pending TL review |
+| Requirements | 🟡 Yellow | REQ-0001–0013 implemented; REQ-0014 open (Sprint 10) |
+| Architecture | 🟢 Green | ARCH-001–007 complete; ARCH-006/007 Conditionally Approved |
 | Implementation | 🟢 Green | 10 demos + 12 backend variants + comparison demo + kernel_model library + PTX tracer delivered |
 | Tests | 🟢 Green | 96 CPU tests pass; 26 GPU tests ready for hardware |
 | Documentation | 🟢 Green | 37 slides in docs/slides/ + README index (REQ-0009 complete) |
-| CI/Build | 🟡 Yellow | CI workflows written (.github/workflows/ci.yml + gpu-ci.yml); pending commit + push to activate |
+| CI/Build | 🟢 Green | ci.yml active (lint + 96 CPU tests); gpu-ci.yml manual-trigger |
 
 ---
 
@@ -119,7 +119,7 @@ sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), s
 
 ---
 
-## Sprint 9 — OPEN: CI/CD Pipeline + Jupyter Notebooks
+## Sprint 9 — CLOSED: CI/CD Pipeline + Jupyter Notebooks
 
 **Goal**: Establish automated code quality validation via GitHub Actions and deliver interactive Jupyter notebooks for the two most foundational demos.
 
@@ -138,21 +138,21 @@ sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), s
 
 ### Definition of Done
 
-- [ ] Pushing to any branch triggers `CI` workflow automatically on GitHub Actions
-- [ ] `CI` workflow passes: ruff clean + 96 CPU tests green
+- [x] Pushing to any branch triggers `CI` workflow automatically on GitHub Actions
+- [x] `CI` workflow passes: ruff clean + 96 CPU tests green
 - [x] `jupyter nbconvert --execute notebooks/01_core_apis.ipynb` succeeds on CPU-only machine (CPU cells verified)
 - [x] `jupyter nbconvert --execute notebooks/02_kmeans.ipynb` succeeds on CPU-only machine (CPU cells verified)
 - [x] Both notebooks have cleared output and GPU-guarded cells
-- [ ] All 4 deliverables committed and pushed to GitHub
-- [ ] Tech Lead sprint review: Approved or Conditional Approval
+- [x] All 4 deliverables committed to main branch
+- [x] Tech Lead sprint review: Approved or Conditional Approval → ✓ Conditional Approval (2026-05-05)
 
 **Priority breakdown**: P0 = CI workflow; P1 = notebooks (both have user-visible value, CI unblocks badge in README)
 
 ---
 
-## Sprint 10 — PLANNED: README + Physical GPU Validation
+## Sprint 10 — OPEN: README + Physical GPU Validation
 
-**Goal**: Deliver polished user-facing `README.md` covering all 10 demos and validate all 26 GPU tests against physical NVIDIA hardware.
+**Goal**: Deliver polished user-facing `README.md` covering all 10 demos and validate all 26 GPU tests against physical NVIDIA hardware. Also apply Sprint 9 minor fixes (m-1, m-2).
 
 **REQ refs**: REQ-0014 (README)
 **Depends on**: Sprint 9 complete (CI badge available for README; notebooks exist to reference)
@@ -161,18 +161,23 @@ sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), s
 
 | # | File | Description | REQ | Status |
 |---|------|-------------|-----|--------|
-| 1 | `README.md` | Top-level user-facing documentation: quickstart, demo table (01-10), prerequisites, test instructions, CI badge | REQ-0014-F1–F8 | Not started |
+| 1 | `README.md` | Top-level user-facing documentation: quickstart, demo table (01–10), prerequisites, test instructions, CI badge | REQ-0014-F1–F8 | Not started |
 | 2 | GPU validation report | Run `pytest tests/ -v` on NVIDIA GPU hardware; document pass/fail per test | — | Not started |
 | 3 | Bug fixes (if GPU validation reveals issues) | Fix any CPU/GPU correctness divergences found during hardware validation | — | Not started |
+| 4 | Fix m-2: add `cupy` + `torch` to `gpu-ci.yml` pip install | Sprint 9 TL finding | — | Not started |
+| 5 | Fix m-1: add CI badge to README.md | REQ-0012-F5 / Sprint 9 TL finding | — | Not started |
 
 ### Definition of Done
 
 - [ ] `README.md` exists at project root and renders correctly on GitHub
-- [ ] Demo Overview table lists all 10 demos (01-10) with correct one-line descriptions
+- [ ] Demo Overview table lists all 10 demos (01–10) with correct one-line descriptions
 - [ ] All relative links in README resolve correctly
-- [ ] CI badge present in README
+- [ ] CI badge present in README pointing to ci.yml workflow
+- [ ] gpu-ci.yml installs cupy + torch for full interop test coverage
 - [ ] All 26 GPU tests validated against physical hardware (pass or documented known failure with tracking issue)
 - [ ] Tech Lead sprint review: Approved or Conditional Approval
+
+**Priority breakdown**: P0 = README.md (REQ-0014, user-visible); P0 = m-1 + m-2 fixes; P1 = GPU validation (requires hardware)
 
 ---
 
@@ -189,8 +194,8 @@ sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), s
 | Sprint 6 | CLOSED | **Approved** | docs/slides/ — 37 slides covering all 8 demo directories |
 | Sprint 7 | CLOSED | Conditional Approval | src/kernel_model/ — occupancy + roofline model library; 11 CPU tests; M-1 fixed |
 | Sprint 8 | CLOSED | **Approved** | src/kernel_model/ptx_tracer.py — PTX instruction tracer (Ampere→Blackwell); 13 CPU tests; 4 minor findings |
-| Sprint 9 | OPEN | — | GitHub Actions CI workflows + Jupyter notebooks (demos 01+02) — all files done, pending commit + TL review |
-| Sprint 10 | PLANNED | — | README.md + physical GPU validation |
+| Sprint 9 | CLOSED | Conditional Approval | GitHub Actions CI + Jupyter notebooks (demos 01+02); 3 minor findings |
+| Sprint 10 | OPEN | — | README.md + physical GPU validation |
 
 ---
 
@@ -272,11 +277,11 @@ Run: `pytest tests/ -m "not gpu"` — 72 pass
 
 | Item | REQ | ARCH | Priority | Sprint |
 |------|-----|------|----------|--------|
-| Jupyter notebooks (demos 01+02) | REQ-0013 | ARCH-007 | P1 | Sprint 9 |
-| CI/CD pipeline (GitHub Actions) | REQ-0012 | ARCH-006 | P1 | Sprint 9 |
-| README.md user-facing documentation | REQ-0014 | — | P1 | Sprint 10 |
+| README.md user-facing documentation | REQ-0014 | — | P0 | Sprint 10 |
+| Fix m-1: CI badge in README (REQ-0012-F5) | REQ-0012 | — | P0 | Sprint 10 |
+| Fix m-2: cupy + torch in gpu-ci.yml | — | — | P0 | Sprint 10 |
 | Physical GPU validation (all 26 GPU tests) | — | — | P1 | Sprint 10 |
-| Jupyter notebooks (demos 03-08) | — | — | P2 | Backlog |
+| Jupyter notebooks (demos 03–08) | — | — | P2 | Backlog |
 | FP16/BF16/TF32 performance modeling extensions | — | — | P2 | Backlog |
 | cuobjdump PTX extraction in PTXTracer | — | — | P2 | Backlog |
 | Code coverage reporting in CI | — | — | P2 | Backlog |
@@ -291,7 +296,7 @@ Run: `pytest tests/ -m "not gpu"` — 72 pass
 | Requirements (implemented) | `agents/requirements/REQ-0001.md` – `REQ-0009.md` |
 | Architecture | `agents/architecture/ARCH-001.md` – `ARCH-007.md` |
 | TL reviews | `agents/reviews/code/TL-review-sprint{1-8}*.md` |
-| Sprint retros | `agents/session-logs/proj-mgr/sprint-{1-6}-retro-2026-05-01.md`, `sprint-{7,8}-retro-2026-05-05.md` |
+| Sprint retros | `agents/session-logs/proj-mgr/sprint-{1-6}-retro-2026-05-01.md`, `sprint-{7,8,9}-retro-2026-05-05.md` |
 | PTX tracer research | `agents/architecture/ptx-tracer-research.md` |
 | Prior art survey | `agents/architecture/prior-art-kernel-model.md` |
 | Run all demos | `python benchmarks/run_all.py` (requires GPU) |

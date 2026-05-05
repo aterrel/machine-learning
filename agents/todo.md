@@ -1,37 +1,44 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 9 OPEN — CI/CD Pipeline + Jupyter Notebooks (2026-05-05)
+## Status: SPRINT 10 OPEN — README + Physical GPU Validation (2026-05-05)
 
-Sprint 9 goal: `.github/workflows/` CI pipeline (ruff + CPU tests) + `notebooks/01_core_apis.ipynb` + `notebooks/02_kmeans.ipynb`.
-REQ: REQ-0012, REQ-0013 | ARCH: ARCH-006, ARCH-007 | Depends on: Sprint 8 CLOSED
+Sprint 10 goal: `README.md` covering all 10 demos with CI badge + Physical GPU validation of all 26 GPU tests.
+REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ---
 
-## Sprint 9 — CI/CD Pipeline + Jupyter Notebooks (REQ-0012, REQ-0013)
+## Sprint 10 — README + Physical GPU Validation (REQ-0014)
 
 ### P0 — Programmer
 
-- [x] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR
-- [x] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
-- [x] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
-- [x] [Prog] Create `notebooks/02_kmeans.ipynb` — interactive GPU k-means notebook
+- [ ] [Prog] Create `README.md` — top-level docs: quickstart, demo table (01–10), prerequisites, CI badge (REQ-0014-F1–F8)
+- [ ] [Prog] Fix m-2: add `cupy` and `torch` to `gpu-ci.yml` pip install step (Sprint 9 TL finding)
+- [ ] [Prog] Fix m-1: add CI badge to README (REQ-0012-F5) — can be done as part of README task above
+
+### P1 — GPU Validation (requires NVIDIA hardware)
+
+- [ ] [Prog] Run `pytest tests/ -v` on physical NVIDIA GPU; document pass/fail for all 26 GPU tests
+- [ ] [Prog] Fix any correctness issues found during GPU validation
 
 ### P1 — Tech Lead Review
 
-- [x] [TL] Sprint 9 code review — Conditional Approval (2026-05-05)
+- [ ] [TL] Sprint 10 code review
 
 ---
 
 ## Remaining Backlog (not blocking)
 
-- [ ] README.md user-facing documentation (Sprint 10)
-- [ ] Physical GPU validation — all 26 GPU tests (Sprint 10)
+- [ ] Physical GPU validation — all 26 GPU tests (Sprint 10 P1, requires NVIDIA hardware)
+- [ ] Jupyter notebooks for demos 03–08 (post-Sprint 10, P2)
+- [ ] FP16/BF16/TF32 performance modeling extensions (P2)
+- [ ] cuobjdump PTX extraction in PTXTracer (P2)
+- [ ] Code coverage reporting in CI (P2)
 
 ---
 
 ## Completed
 
-### Sprint 9 — CI/CD + Jupyter Notebooks (OPEN)
+### Sprint 9 — CI/CD + Jupyter Notebooks (CLOSED — Conditional Approval)
 - [x] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR
 - [x] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
 - [x] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
