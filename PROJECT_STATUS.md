@@ -10,12 +10,12 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟡 Yellow | REQ-0001–0011 implemented; REQ-0012–0013 open (Sprint 9); REQ-0014 planned (Sprint 10) |
-| Architecture | 🟡 Yellow | ARCH-001–005 Approved; ARCH-006/007 active (Sprint 9) |
-| Implementation | 🟢 Green | 8 core demos + 12 backend variants + comparison demo + kernel_model library + PTX tracer delivered |
+| Requirements | 🟡 Yellow | REQ-0001–0013 implemented; REQ-0014 planned (Sprint 10) |
+| Architecture | 🟡 Yellow | ARCH-001–007 complete; ARCH-006/007 pending TL review |
+| Implementation | 🟢 Green | 10 demos + 12 backend variants + comparison demo + kernel_model library + PTX tracer delivered |
 | Tests | 🟢 Green | 96 CPU tests pass; 26 GPU tests ready for hardware |
 | Documentation | 🟢 Green | 37 slides in docs/slides/ + README index (REQ-0009 complete) |
-| CI/Build | 🔴 Red | pyproject.toml in place; no CI pipeline (Sprint 9) |
+| CI/Build | 🟡 Yellow | CI workflows written (.github/workflows/ci.yml + gpu-ci.yml); pending commit + push to activate |
 
 ---
 
@@ -131,18 +131,19 @@ sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), s
 
 | # | File | Description | REQ | Status |
 |---|------|-------------|-----|--------|
-| 1 | `.github/workflows/ci.yml` | Lint (ruff) + CPU-safe tests on every push/PR | REQ-0012 | Not started |
-| 2 | `.github/workflows/gpu-ci.yml` | Full GPU test suite, manual trigger, self-hosted runner config | REQ-0012 | Not started |
-| 3 | `notebooks/01_core_apis.ipynb` | Interactive CUDA Python API walkthrough; GPU-guarded cells | REQ-0013 | Not started |
-| 4 | `notebooks/02_kmeans.ipynb` | Interactive GPU k-means clustering; GPU-guarded cells | REQ-0013 | Not started |
+| 1 | `.github/workflows/ci.yml` | Lint (ruff) + CPU-safe tests on every push/PR | REQ-0012 | Done |
+| 2 | `.github/workflows/gpu-ci.yml` | Full GPU test suite, manual trigger, self-hosted runner config | REQ-0012 | Done |
+| 3 | `notebooks/01_core_apis.ipynb` | Interactive CUDA Python API walkthrough; GPU-guarded cells | REQ-0013 | Done |
+| 4 | `notebooks/02_kmeans.ipynb` | Interactive GPU k-means clustering; GPU-guarded cells | REQ-0013 | Done |
 
 ### Definition of Done
 
 - [ ] Pushing to any branch triggers `CI` workflow automatically on GitHub Actions
 - [ ] `CI` workflow passes: ruff clean + 96 CPU tests green
-- [ ] `jupyter nbconvert --execute notebooks/01_core_apis.ipynb` succeeds on CPU-only machine
-- [ ] `jupyter nbconvert --execute notebooks/02_kmeans.ipynb` succeeds on CPU-only machine
-- [ ] Both notebooks committed with cleared output
+- [x] `jupyter nbconvert --execute notebooks/01_core_apis.ipynb` succeeds on CPU-only machine (CPU cells verified)
+- [x] `jupyter nbconvert --execute notebooks/02_kmeans.ipynb` succeeds on CPU-only machine (CPU cells verified)
+- [x] Both notebooks have cleared output and GPU-guarded cells
+- [ ] All 4 deliverables committed and pushed to GitHub
 - [ ] Tech Lead sprint review: Approved or Conditional Approval
 
 **Priority breakdown**: P0 = CI workflow; P1 = notebooks (both have user-visible value, CI unblocks badge in README)
@@ -188,7 +189,7 @@ sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), s
 | Sprint 6 | CLOSED | **Approved** | docs/slides/ — 37 slides covering all 8 demo directories |
 | Sprint 7 | CLOSED | Conditional Approval | src/kernel_model/ — occupancy + roofline model library; 11 CPU tests; M-1 fixed |
 | Sprint 8 | CLOSED | **Approved** | src/kernel_model/ptx_tracer.py — PTX instruction tracer (Ampere→Blackwell); 13 CPU tests; 4 minor findings |
-| Sprint 9 | OPEN | — | GitHub Actions CI + Jupyter notebooks (demos 01+02) |
+| Sprint 9 | OPEN | — | GitHub Actions CI workflows + Jupyter notebooks (demos 01+02) — all files done, pending commit + TL review |
 | Sprint 10 | PLANNED | — | README.md + physical GPU validation |
 
 ---

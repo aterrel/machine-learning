@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ruff
+        run: pip install "ruff>=0.4"
+      - name: Lint
+        run: ruff check src/ demos/ tests/
+      - name: Format check
+        run: ruff format --check src/ demos/ tests/
+
+  test-cpu:
+    name: CPU Tests (no GPU required)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        # cuda-python is intentionally NOT installed here.
+        # All src/kernel_model modules have zero GPU imports at module level,
+        # so the full CPU-safe test suite runs without it.
+        # Any accidental top-level `import cuda` will surface as ModuleNotFoundError
+        # at collection time — this is the desired correctness gate.
+        run: pip install "numpy>=1.26" "pytest>=8.0"
+      - name: Run CPU-safe tests
+        run: PYTHONPATH=. pytest tests/ -m "not gpu" -v

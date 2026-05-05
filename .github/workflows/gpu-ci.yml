@@ -1,0 +1,33 @@
+name: GPU CI
+
+on:
+  workflow_dispatch:
+  # Uncomment to run on push with a self-hosted GPU runner:
+  # push:
+  #   branches: [main]
+
+# Self-hosted runner setup requirements:
+#   1. A machine with an NVIDIA GPU (any CUDA 12.x-capable GPU, e.g. A100, H100, RTX 30xx/40xx)
+#   2. CUDA Toolkit 12.x installed system-wide (https://developer.nvidia.com/cuda-downloads)
+#   3. GitHub Actions self-hosted runner registered with labels: [self-hosted, gpu]
+#      See: https://docs.github.com/en/actions/hosting-your-own-runners
+#   4. The runner must have network access to PyPI to install dependencies
+#
+# To register a self-hosted runner:
+#   Settings → Actions → Runners → New self-hosted runner
+#   Follow the GitHub UI instructions to install and configure the runner.
+#   Add the "gpu" label during configuration or via the GitHub UI after registration.
+
+jobs:
+  test-gpu:
+    name: GPU Tests (requires self-hosted NVIDIA GPU runner)
+    runs-on: [self-hosted, gpu]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install "cuda-python>=12.3" "numpy>=1.26" "pytest>=8.0" "ruff>=0.4"
+      - name: Run all tests (including GPU)
+        run: PYTHONPATH=. pytest tests/ -v

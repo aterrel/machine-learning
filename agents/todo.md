@@ -11,10 +11,10 @@ REQ: REQ-0012, REQ-0013 | ARCH: ARCH-006, ARCH-007 | Depends on: Sprint 8 CLOSED
 
 ### P0 — Programmer
 
-- [ ] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR
-- [ ] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
-- [ ] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
-- [ ] [Prog] Create `notebooks/02_kmeans.ipynb` — interactive GPU k-means notebook
+- [x] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR
+- [x] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
+- [x] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
+- [x] [Prog] Create `notebooks/02_kmeans.ipynb` — interactive GPU k-means notebook
 
 ### P1 — Tech Lead Review
 
@@ -30,6 +30,12 @@ REQ: REQ-0012, REQ-0013 | ARCH: ARCH-006, ARCH-007 | Depends on: Sprint 8 CLOSED
 ---
 
 ## Completed
+
+### Sprint 9 — CI/CD + Jupyter Notebooks (OPEN)
+- [x] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR
+- [x] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
+- [x] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
+- [x] [Prog] Create `notebooks/02_kmeans.ipynb` — interactive GPU k-means notebook
 
 ### Sprint 8 — PTX Kernel Execution Tracer (CLOSED — Approved)
 - [x] [Prog] Create `src/kernel_model/_taxonomy.py` — `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord
