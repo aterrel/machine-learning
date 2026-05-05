@@ -18,7 +18,7 @@ REQ: REQ-0012, REQ-0013 | ARCH: ARCH-006, ARCH-007 | Depends on: Sprint 8 CLOSED
 
 ### P1 — Tech Lead Review
 
-- [ ] [TL] Sprint 9 code review
+- [x] [TL] Sprint 9 code review — Conditional Approval (2026-05-05)
 
 ---
 
@@ -36,6 +36,7 @@ REQ: REQ-0012, REQ-0013 | ARCH: ARCH-006, ARCH-007 | Depends on: Sprint 8 CLOSED
 - [x] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
 - [x] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
 - [x] [Prog] Create `notebooks/02_kmeans.ipynb` — interactive GPU k-means notebook
+- [x] [TL] Sprint 9 code review — Conditional Approval (2026-05-05) — 0 critical, 2 major (accepted deviations), 4 minor findings
 
 ### Sprint 8 — PTX Kernel Execution Tracer (CLOSED — Approved)
 - [x] [Prog] Create `src/kernel_model/_taxonomy.py` — `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord
