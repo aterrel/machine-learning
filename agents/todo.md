@@ -26,7 +26,7 @@ REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ### P0 — Programmer Fix (unblocked)
 
-- [!] [Prog] Fix README.md quickstart commands — see HANDOFF-tl-to-prog-sprint10-fixes-2026-05-05.md
+- [x] [Prog] Fix README.md quickstart commands — see HANDOFF-tl-to-prog-sprint10-fixes-2026-05-05.md
 
 ---
 
@@ -46,6 +46,7 @@ REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 - [x] [Prog] Create `README.md` — full project README replacing template stub; CI badge, demo table (01–10), CPU-only quickstart, GPU quickstart, prerequisites, test commands, notebook links, slides link (REQ-0014-F1–F8)
 - [x] [Prog] Fix m-2: add `cupy-cuda12x>=12.0` and `torch>=2.0` to `gpu-ci.yml` pip install (Sprint 9 TL finding)
 - [x] [Prog] Fix m-1: CI badge added to README (REQ-0012-F5)
+- [x] [Prog] Fix C-1: replace broken `python -m demos.run_all` with `python benchmarks/run_all.py` in README quickstart (TL Sprint 10 critical finding)
 
 ### Sprint 9 — CI/CD + Jupyter Notebooks (CLOSED — Conditional Approval)
 - [x] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR

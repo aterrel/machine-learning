@@ -51,7 +51,7 @@ python -m demos.10_ptx_tracer.main
 python -m demos.01_core_apis.main
 
 # Run all demos
-python -m demos.run_all
+python benchmarks/run_all.py
 ```
 
 ---
