@@ -1,16 +1,37 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 8 CLOSED — PTX Kernel Execution Tracer (2026-05-05) — Approved
+## Status: SPRINT 9 OPEN — CI/CD Pipeline + Jupyter Notebooks (2026-05-05)
 
-Sprint 8 goal: `src/kernel_model/ptx_tracer.py` — pure-Python PTX instruction tracer (Ampere/Ada/Hopper/Blackwell).
-REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLOSED
+Sprint 9 goal: `.github/workflows/` CI pipeline (ruff + CPU tests) + `notebooks/01_core_apis.ipynb` + `notebooks/02_kmeans.ipynb`.
+REQ: REQ-0012, REQ-0013 | ARCH: ARCH-006, ARCH-007 | Depends on: Sprint 8 CLOSED
 
 ---
 
-## Sprint 8 — PTX Kernel Execution Tracer (REQ-0011)
+## Sprint 9 — CI/CD Pipeline + Jupyter Notebooks (REQ-0012, REQ-0013)
 
 ### P0 — Programmer
 
+- [ ] [Prog] Create `.github/workflows/ci.yml` — ruff lint + CPU-safe pytest on push/PR
+- [ ] [Prog] Create `.github/workflows/gpu-ci.yml` — full GPU test suite, manual trigger, self-hosted runner
+- [ ] [Prog] Create `notebooks/01_core_apis.ipynb` — interactive CUDA Python API walkthrough
+- [ ] [Prog] Create `notebooks/02_kmeans.ipynb` — interactive GPU k-means notebook
+
+### P1 — Tech Lead Review
+
+- [ ] [TL] Sprint 9 code review
+
+---
+
+## Remaining Backlog (not blocking)
+
+- [ ] README.md user-facing documentation (Sprint 10)
+- [ ] Physical GPU validation — all 26 GPU tests (Sprint 10)
+
+---
+
+## Completed
+
+### Sprint 8 — PTX Kernel Execution Tracer (CLOSED — Approved)
 - [x] [Prog] Create `src/kernel_model/_taxonomy.py` — `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord
 - [x] [Prog] Create `src/kernel_model/_arch_table.py` — `ArchSpec` dataclass + `_ARCH_TABLE` for sm_70/80/86/89/90/100 + `_MMA_LATENCY` values from ptx-tracer-research.md
 - [x] [Prog] Create `src/kernel_model/ptx_tracer.py` — PTXTracer, TracerResult, InstructionRecord with trace(), trace_file(), bottleneck()
@@ -20,26 +41,7 @@ REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLO
 - [x] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/gemm_mma.ptx` — handwritten minimal PTX with mma.sync instructions
 - [x] [Prog] Create `demos/10_ptx_tracer/main.py` — CLI demo: trace both fixtures vs A100 and H100 side-by-side
 - [x] [Prog] Create `tests/test_ptx_tracer.py` — 13 CPU-safe test cases per ARCH-005
-
-### P1 — Tech Lead Review
-
 - [x] [TL] Sprint 8 code review — Approved (2026-05-05) — 0 critical, 0 major, 4 minor findings
-
----
-
-## Remaining Backlog (not blocking)
-
-- [ ] [Prog] Generate Jupyter notebook versions of demos 01 and 02
-- [ ] README.md user-facing documentation
-- [ ] CI/CD pipeline (GitHub Actions)
-
----
-
-## Completed
-
-### Sprint 6 — Slide-Based Demo Documentation (CLOSED — Approved)
-- [x] [Prog] docs/slides/ — 37 slides across 10 directories (REQ-0009)
-- [x] [TL] Sprint 6 code review — Approved
 
 ### Sprint 7 — Kernel Performance Model (CLOSED — Conditional Approval)
 - [x] [Prog] Create `src/kernel_model/__init__.py` — re-exports DeviceSpec, OccupancyModel, OccupancyResult, RooflineModel, RooflineResult
@@ -50,6 +52,10 @@ REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLO
 - [x] [Prog] Create `demos/09_kernel_model/main.py` — CLI demo: occupancy table + roofline summary for vector-add kernel on A100; M-1 (dead `mem_bw_util`) fixed post-review
 - [x] [Prog] Create `tests/test_kernel_model.py` — 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test
 - [x] [TL] Sprint 7 code review — Conditional Approval (2026-05-05) — 0 critical, 0 major, 7 minor findings; M-1 fixed
+
+### Sprint 6 — Slide-Based Demo Documentation (CLOSED — Approved)
+- [x] [Prog] docs/slides/ — 37 slides across 10 directories (REQ-0009)
+- [x] [TL] Sprint 6 code review — Approved
 
 ### Sprint 0 / Bootstrap
 - [x] [Claude-Mgr] Full project initialization (PROJECT.md, CLAUDE.md, REQ-0001–0006, ARCH-001–002)

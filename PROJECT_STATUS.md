@@ -1,8 +1,8 @@
 # PROJECT_STATUS.md — CUDA Python ML Demos
 
 **Last Updated**: 2026-05-05
-**Current Sprint**: Sprint 8 — OPEN (PTX Kernel Execution Tracer)
-**All Sprints**: 1–7 CLOSED
+**Current Sprint**: Sprint 9 — OPEN (CI/CD Pipeline + Jupyter Notebooks)
+**All Sprints**: 1–8 CLOSED
 
 ---
 
@@ -10,10 +10,10 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟡 Yellow | REQ-0001–0010 implemented; REQ-0011 open (Sprint 8); REQ-0012–0014 planned (Sprints 9–10) |
-| Architecture | 🟡 Yellow | ARCH-001–004 Approved/Conditional Approval (Sprint 7 done); ARCH-005 Conditional Approval (Sprint 8 active); ARCH-006/007 Draft |
-| Implementation | 🟢 Green | 8 core demos + 12 backend variants + comparison demo delivered |
-| Tests | 🟢 Green | 72 CPU tests pass; 26 GPU tests ready for hardware |
+| Requirements | 🟡 Yellow | REQ-0001–0011 implemented; REQ-0012–0013 open (Sprint 9); REQ-0014 planned (Sprint 10) |
+| Architecture | 🟡 Yellow | ARCH-001–005 Approved; ARCH-006/007 active (Sprint 9) |
+| Implementation | 🟢 Green | 8 core demos + 12 backend variants + comparison demo + kernel_model library + PTX tracer delivered |
+| Tests | 🟢 Green | 96 CPU tests pass; 26 GPU tests ready for hardware |
 | Documentation | 🟢 Green | 37 slides in docs/slides/ + README index (REQ-0009 complete) |
 | CI/Build | 🔴 Red | pyproject.toml in place; no CI pipeline (Sprint 9) |
 
@@ -79,67 +79,67 @@ V100 (16GB), A100 (40GB), A100 (80GB), H100 (80GB SXM), B100 (80GB SXM), RTX 309
 
 ---
 
-## Sprint 8 — OPEN (PTX Kernel Execution Tracer)
+## Sprint 8 — CLOSED: PTX Kernel Execution Tracer
 
 **Goal**: Implement `src/kernel_model/ptx_tracer.py` — a pure-Python PTX instruction scanner classifying instruction mix by category (smem, tmem, mma_warp, mma_warpgroup, mma_cta, async_copy, async_tma, fused_fp, global_mem) with architecture-specific annotations for Ampere, Ada, Hopper, and Blackwell.
 
 **ARCH ref**: ARCH-005 (Conditional Approval)
 **REQ ref**: REQ-0011
 **Depends on**: Sprint 7 CLOSED — DeviceSpec (including `sm_version`) delivered
-**Tech Lead verdict**: GO — `_MMA_LATENCY` values must be sourced from `agents/architecture/ptx-tracer-research.md`; sm_86 ArchSpec placeholders must be filled
+**Tech Lead verdict**: Approved — 0 critical, 0 major, 4 minor findings (none blocking)
 
 ### Deliverables (in dependency order)
 
 | # | File | Description | REQ | Status |
 |---|------|-------------|-----|--------|
-| 1 | `src/kernel_model/_taxonomy.py` | `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord (category + arch_introduced + latency + throughput note) | REQ-0011-F7 | Not started |
-| 2 | `src/kernel_model/_arch_table.py` | `ArchSpec` dataclass + `_ARCH_TABLE` dict for sm_80/86/89/90/100; includes `_MMA_LATENCY` values | REQ-0011-F6 | Not started |
-| 3 | `src/kernel_model/ptx_tracer.py` | `InstructionRecord`, `TracerResult`, `PTXTracer` class with `trace()`, `trace_file()`, `bottleneck()` | REQ-0011-F1–F9 | Not started |
-| 4 | `src/kernel_model/__init__.py` | Update re-exports: add PTXTracer, TracerResult | REQ-0011 | Not started |
-| 5 | `demos/10_ptx_tracer/__init__.py` | Empty package init | REQ-0011 | Not started |
-| 6 | `demos/10_ptx_tracer/ptx_fixtures/vector_add.ptx` | Handwritten minimal PTX: vector-add kernel | REQ-0011-F13 | Not started |
-| 7 | `demos/10_ptx_tracer/ptx_fixtures/gemm_mma.ptx` | Handwritten minimal PTX: GEMM with mma.sync instructions | REQ-0011-F13 | Not started |
-| 8 | `demos/10_ptx_tracer/main.py` | CLI demo: trace both fixtures vs A100 and H100; side-by-side comparison | REQ-0011-F13/F14 | Not started |
-| 9 | `tests/test_ptx_tracer.py` | 13 CPU-safe test cases per ARCH-005 testing strategy | REQ-0011 | Not started |
+| 1 | `src/kernel_model/_taxonomy.py` | `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord (category + arch_introduced + latency + throughput note) | REQ-0011-F7 | Done |
+| 2 | `src/kernel_model/_arch_table.py` | `ArchSpec` dataclass + `_ARCH_TABLE` dict for sm_80/86/89/90/100; includes `_MMA_LATENCY` values | REQ-0011-F6 | Done |
+| 3 | `src/kernel_model/ptx_tracer.py` | `InstructionRecord`, `TracerResult`, `PTXTracer` class with `trace()`, `trace_file()`, `bottleneck()` | REQ-0011-F1–F9 | Done |
+| 4 | `src/kernel_model/__init__.py` | Update re-exports: add PTXTracer, TracerResult | REQ-0011 | Done |
+| 5 | `demos/10_ptx_tracer/__init__.py` | Empty package init | REQ-0011 | Done |
+| 6 | `demos/10_ptx_tracer/ptx_fixtures/vector_add.ptx` | Handwritten minimal PTX: vector-add kernel | REQ-0011-F13 | Done |
+| 7 | `demos/10_ptx_tracer/ptx_fixtures/gemm_mma.ptx` | Handwritten minimal PTX: GEMM with mma.sync instructions | REQ-0011-F13 | Done |
+| 8 | `demos/10_ptx_tracer/main.py` | CLI demo: trace both fixtures vs A100 and H100; side-by-side comparison | REQ-0011-F13/F14 | Done |
+| 9 | `tests/test_ptx_tracer.py` | 13 CPU-safe test cases per ARCH-005 testing strategy | REQ-0011 | Done |
 
 ### Architectures covered
 
-sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), sm_90 (H100), sm_100 (B100/B200/RTX 5090).
+sm_70 (V100), sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), sm_90 (H100), sm_100 (B100/B200/RTX 5090).
 
 ### Definition of Done
 
-- [ ] `from src.kernel_model import PTXTracer` succeeds on a machine with no GPU
-- [ ] `mma.sync` PTX traced against A100: `mma_warp_count == 1`, `mma_warpgroup_count == 0`
-- [ ] `wgmma.mma_async` PTX traced against H100: `mma_warpgroup_count == 1`
-- [ ] `tcgen05.mma` PTX traced against RTX 5090: `mma_cta_count == 1`
-- [ ] `tcgen05.mma` PTX traced against A100: `unsupported_instructions` non-empty; note in `TracerResult.notes`
-- [ ] `python demos/10_ptx_tracer/main.py` prints tracer report for both fixtures vs A100 and H100 without a GPU
-- [ ] All 13 CPU tests pass
-- [ ] Tech Lead sprint review: Approved or Conditional Approval
+- [x] `from src.kernel_model import PTXTracer` succeeds on a machine with no GPU
+- [x] `mma.sync` PTX traced against A100: `mma_warp_count == 1`, `mma_warpgroup_count == 0`
+- [x] `wgmma.mma_async` PTX traced against H100: `mma_warpgroup_count == 1`
+- [x] `tcgen05.mma` PTX traced against RTX 5090: `mma_cta_count == 1`
+- [x] `tcgen05.mma` PTX traced against A100: `unsupported_instructions` non-empty; note in `TracerResult.notes`
+- [x] `python demos/10_ptx_tracer/main.py` prints tracer report for both fixtures vs A100 and H100 without a GPU
+- [x] All 13 CPU tests pass
+- [x] Tech Lead sprint review: Approved or Conditional Approval
 
 ---
 
-## Sprint 9 — PLANNED: CI/CD Pipeline + Jupyter Notebooks
+## Sprint 9 — OPEN: CI/CD Pipeline + Jupyter Notebooks
 
 **Goal**: Establish automated code quality validation via GitHub Actions and deliver interactive Jupyter notebooks for the two most foundational demos.
 
 **REQ refs**: REQ-0012 (CI/CD), REQ-0013 (Jupyter notebooks)
 **ARCH refs**: ARCH-006 (CI/CD), ARCH-007 (Notebooks)
-**Depends on**: Sprint 8 complete — PTX Tracer (demos/10_ptx_tracer) must be delivered so CI pipeline covers all 10 demos
+**Depends on**: Sprint 8 CLOSED — PTX Tracer (demos/10_ptx_tracer) delivered; CI pipeline now covers all 10 demos
 
 ### Deliverables
 
 | # | File | Description | REQ | Status |
 |---|------|-------------|-----|--------|
-| 1 | `.github/workflows/ci.yml` | Lint + CPU-safe tests on every push and PR | REQ-0012-F1/F2/F6/F7 | Not started |
-| 2 | `.github/workflows/gpu-ci.yml` | Full GPU test suite; manual trigger; self-hosted runner config | REQ-0012-F3/F4 | Not started |
-| 3 | `notebooks/01_core_apis.ipynb` | Interactive CUDA Python API walkthrough; GPU-guarded cells | REQ-0013-F1/F3/F4 | Not started |
-| 4 | `notebooks/02_kmeans.ipynb` | Interactive GPU k-means clustering notebook; GPU-guarded cells | REQ-0013-F2/F3/F4 | Not started |
+| 1 | `.github/workflows/ci.yml` | Lint (ruff) + CPU-safe tests on every push/PR | REQ-0012 | Not started |
+| 2 | `.github/workflows/gpu-ci.yml` | Full GPU test suite, manual trigger, self-hosted runner config | REQ-0012 | Not started |
+| 3 | `notebooks/01_core_apis.ipynb` | Interactive CUDA Python API walkthrough; GPU-guarded cells | REQ-0013 | Not started |
+| 4 | `notebooks/02_kmeans.ipynb` | Interactive GPU k-means clustering; GPU-guarded cells | REQ-0013 | Not started |
 
 ### Definition of Done
 
 - [ ] Pushing to any branch triggers `CI` workflow automatically on GitHub Actions
-- [ ] `CI` workflow passes: ruff clean + 72 CPU tests (+ any new tests from Sprints 7+8) green
+- [ ] `CI` workflow passes: ruff clean + 96 CPU tests green
 - [ ] `jupyter nbconvert --execute notebooks/01_core_apis.ipynb` succeeds on CPU-only machine
 - [ ] `jupyter nbconvert --execute notebooks/02_kmeans.ipynb` succeeds on CPU-only machine
 - [ ] Both notebooks committed with cleared output
@@ -187,8 +187,8 @@ sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), sm_90 (H100), s
 | Sprint 5 | CLOSED | Conditional Approval | 12 backend variants + comparison demo, 72 CPU tests |
 | Sprint 6 | CLOSED | **Approved** | docs/slides/ — 37 slides covering all 8 demo directories |
 | Sprint 7 | CLOSED | Conditional Approval | src/kernel_model/ — occupancy + roofline model library; 11 CPU tests; M-1 fixed |
-| Sprint 8 | OPEN | — | src/kernel_model/ptx_tracer.py — PTX instruction tracer (Ampere→Blackwell) |
-| Sprint 9 | PLANNED | — | GitHub Actions CI + Jupyter notebooks (demos 01+02) |
+| Sprint 8 | CLOSED | **Approved** | src/kernel_model/ptx_tracer.py — PTX instruction tracer (Ampere→Blackwell); 13 CPU tests; 4 minor findings |
+| Sprint 9 | OPEN | — | GitHub Actions CI + Jupyter notebooks (demos 01+02) |
 | Sprint 10 | PLANNED | — | README.md + physical GPU validation |
 
 ---
@@ -289,8 +289,8 @@ Run: `pytest tests/ -m "not gpu"` — 72 pass
 | Requirements (active) | `agents/requirements/REQ-0010.md` – `REQ-0014.md` |
 | Requirements (implemented) | `agents/requirements/REQ-0001.md` – `REQ-0009.md` |
 | Architecture | `agents/architecture/ARCH-001.md` – `ARCH-007.md` |
-| TL reviews | `agents/reviews/code/TL-review-sprint{1-7}*.md` |
-| Sprint retros | `agents/session-logs/proj-mgr/sprint-{1-6}-retro-2026-05-01.md`, `sprint-7-retro-2026-05-05.md` |
+| TL reviews | `agents/reviews/code/TL-review-sprint{1-8}*.md` |
+| Sprint retros | `agents/session-logs/proj-mgr/sprint-{1-6}-retro-2026-05-01.md`, `sprint-{7,8}-retro-2026-05-05.md` |
 | PTX tracer research | `agents/architecture/ptx-tracer-research.md` |
 | Prior art survey | `agents/architecture/prior-art-kernel-model.md` |
 | Run all demos | `python benchmarks/run_all.py` (requires GPU) |
