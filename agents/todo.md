@@ -22,7 +22,11 @@ REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ### P1 — Tech Lead Review
 
-- [ ] [TL] Sprint 10 code review
+- [x] [TL] Sprint 10 code review — Changes Required (2026-05-05) — C-1: broken `python -m demos.run_all` command
+
+### P0 — Programmer Fix (unblocked)
+
+- [!] [Prog] Fix README.md quickstart commands — see HANDOFF-tl-to-prog-sprint10-fixes-2026-05-05.md
 
 ---
 
