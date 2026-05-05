@@ -1,8 +1,8 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 7 IN PROGRESS — Kernel Performance Model (2026-05-05)
+## Status: SPRINT 7 IN PROGRESS — Kernel Performance Model (2026-05-05) — Prog DONE, awaiting TL review
 
-Sprint 7 goal: `src/kernel_model/` — pure-Python occupancy + roofline library. All deliverables not started.
+Sprint 7 goal: `src/kernel_model/` — pure-Python occupancy + roofline library. Programmer deliverables complete.
 REQ: REQ-0010 | ARCH: ARCH-004 (Conditional Approval) | TL verdict: GO
 
 ---
@@ -11,13 +11,13 @@ REQ: REQ-0010 | ARCH: ARCH-004 (Conditional Approval) | TL verdict: GO
 
 ### P0 — Programmer
 
-- [ ] [Prog] Create `src/kernel_model/__init__.py` — re-exports DeviceSpec, OccupancyModel, OccupancyResult, RooflineModel, RooflineResult
-- [ ] [Prog] Create `src/kernel_model/device_spec.py` — DeviceSpec dataclass (incl. `sm_version: str`), GPU SKU table (V100/A100-40/A100-80/H100/B100/RTX3090/RTX4090/RTX5090), `from_name()`, `from_device()`
-- [ ] [Prog] Create `src/kernel_model/occupancy.py` — OccupancyResult dataclass + OccupancyModel with `compute()` + `sweep_block_sizes()`
-- [ ] [Prog] Create `src/kernel_model/roofline.py` — RooflineResult dataclass + RooflineModel with `compute()` + `sweep_intensities()`
-- [ ] [Prog] Create `demos/09_kernel_model/__init__.py` — empty package init
-- [ ] [Prog] Create `demos/09_kernel_model/main.py` — CLI demo: occupancy table + roofline summary for vector-add kernel on A100
-- [ ] [Prog] Create `tests/test_kernel_model.py` — 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test
+- [x] [Prog] Create `src/kernel_model/__init__.py` — re-exports DeviceSpec, OccupancyModel, OccupancyResult, RooflineModel, RooflineResult
+- [x] [Prog] Create `src/kernel_model/device_spec.py` — DeviceSpec dataclass (incl. `sm_version: str`), GPU SKU table (V100/A100-40/A100-80/H100/B100/RTX3090/RTX4090/RTX5090), `from_name()`, `from_device()`
+- [x] [Prog] Create `src/kernel_model/occupancy.py` — OccupancyResult dataclass + OccupancyModel with `compute()` + `sweep_block_sizes()`
+- [x] [Prog] Create `src/kernel_model/roofline.py` — RooflineResult dataclass + RooflineModel with `compute()` + `sweep_intensities()`
+- [x] [Prog] Create `demos/09_kernel_model/__init__.py` — empty package init
+- [x] [Prog] Create `demos/09_kernel_model/main.py` — CLI demo: occupancy table + roofline summary for vector-add kernel on A100
+- [x] [Prog] Create `tests/test_kernel_model.py` — 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test
 
 ### P1 — Tech Lead Review
 
