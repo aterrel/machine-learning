@@ -1,6 +1,6 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 7 IN PROGRESS — Kernel Performance Model (2026-05-05) — Prog DONE, awaiting TL review
+## Status: SPRINT 7 TL REVIEW COMPLETE — Conditional Approval — Minor issues tracked (2026-05-05)
 
 Sprint 7 goal: `src/kernel_model/` — pure-Python occupancy + roofline library. Programmer deliverables complete.
 REQ: REQ-0010 | ARCH: ARCH-004 (Conditional Approval) | TL verdict: GO
@@ -21,7 +21,7 @@ REQ: REQ-0010 | ARCH: ARCH-004 (Conditional Approval) | TL verdict: GO
 
 ### P1 — Tech Lead Review
 
-- [ ] [TL] Sprint 7 code review — verify occupancy math, roofline math, SKU table accuracy, test coverage
+- [x] [TL] Sprint 7 code review — verify occupancy math, roofline math, SKU table accuracy, test coverage — Conditional Approval (2026-05-05)
 
 ---
 
