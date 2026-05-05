@@ -39,17 +39,21 @@ class OccupancyModel:
 
         max_blocks_by_warps = math.floor(dev.max_warps_per_sm / warps_per_block)
 
-        if shared_mem_per_block > 0:
-            max_blocks_by_shmem = math.floor(dev.shared_mem_per_sm / shared_mem_per_block)
-        else:
-            max_blocks_by_shmem = dev.max_blocks_per_sm
+        _INF = float("inf")
+
+        max_blocks_by_shmem = (
+            math.floor(dev.shared_mem_per_sm / shared_mem_per_block)
+            if shared_mem_per_block > 0
+            else _INF
+        )
 
         regs_per_warp_alloc = math.ceil(registers_per_thread * 32 / 256) * 256
         regs_per_block = regs_per_warp_alloc * warps_per_block
-        if regs_per_block > 0:
-            max_blocks_by_regs = math.floor(dev.registers_per_sm / regs_per_block)
-        else:
-            max_blocks_by_regs = dev.max_blocks_per_sm
+        max_blocks_by_regs = (
+            math.floor(dev.registers_per_sm / regs_per_block)
+            if regs_per_block > 0
+            else _INF
+        )
 
         limits = {
             "warps": max_blocks_by_warps,
