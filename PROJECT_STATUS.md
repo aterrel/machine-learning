@@ -1,8 +1,8 @@
 # PROJECT_STATUS.md — CUDA Python ML Demos
 
 **Last Updated**: 2026-05-05
-**Current Sprint**: Sprint 7 — OPEN (Kernel Performance Model)
-**All Sprints**: 1–6 CLOSED
+**Current Sprint**: Sprint 8 — OPEN (PTX Kernel Execution Tracer)
+**All Sprints**: 1–7 CLOSED
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Requirements | 🟡 Yellow | REQ-0001–0009 implemented; REQ-0010/0011 open (Sprints 7–8); REQ-0012–0014 planned (Sprints 9–10) |
-| Architecture | 🟡 Yellow | ARCH-001–003 Approved; ARCH-004/005 Conditional Approval (see below); ARCH-006/007 Draft |
+| Requirements | 🟡 Yellow | REQ-0001–0010 implemented; REQ-0011 open (Sprint 8); REQ-0012–0014 planned (Sprints 9–10) |
+| Architecture | 🟡 Yellow | ARCH-001–004 Approved/Conditional Approval (Sprint 7 done); ARCH-005 Conditional Approval (Sprint 8 active); ARCH-006/007 Draft |
 | Implementation | 🟢 Green | 8 core demos + 12 backend variants + comparison demo delivered |
 | Tests | 🟢 Green | 72 CPU tests pass; 26 GPU tests ready for hardware |
 | Documentation | 🟢 Green | 37 slides in docs/slides/ + README index (REQ-0009 complete) |
@@ -33,25 +33,34 @@
 
 ---
 
-## Sprint 7 — OPEN: Kernel Performance Model
+## Sprint 7 — CLOSED: Kernel Performance Model
 
 **Goal**: Implement `src/kernel_model/` — a pure-Python library for GPU kernel occupancy and roofline analysis, plus `demos/09_kernel_model/`. Fully functional without a GPU.
 
 **ARCH ref**: ARCH-004 (Conditional Approval)
 **REQ ref**: REQ-0010
-**Tech Lead verdict**: GO — no blocking ambiguities; `sm_version` field must be included in `device_spec.py` from the start (required by Sprint 8).
+**Tech Lead verdict**: Conditional Approval — 0 critical, 0 major, 7 minor findings. M-1 (dead `mem_bw_util` variable) fixed before close. M-2 through M-7 tracked as follow-on cleanup (P2, non-blocking).
+
+**TL Findings Summary**:
+- M-1 (CLOSED): Dead code `mem_bw_util` in `demos/09_kernel_model/main.py` — removed.
+- M-2 (open): Misleading "Memory bandwidth use" label for compute-bound case.
+- M-3 (open): RTX 5090 `sm_version` may be sm_120, not sm_100 — needs datasheet verification.
+- M-4 (open): Block size validation uses SM capacity (2048) rather than CUDA block limit (1024).
+- M-5 (open): `noqa: F401` comment on deferred `Device` import could be clearer.
+- M-6 (open): Unnecessary `* 1.0` in `sweep_intensities`.
+- M-7 (open): Ruff not installed in venv; run `ruff check` before Sprint 8.
 
 ### Deliverables (in dependency order)
 
 | # | File | Description | REQ | Status |
 |---|------|-------------|-----|--------|
-| 1 | `src/kernel_model/__init__.py` | Package scaffold; re-exports DeviceSpec, OccupancyModel, RooflineModel | REQ-0010 | Not started |
-| 2 | `src/kernel_model/device_spec.py` | DeviceSpec dataclass + `sm_version` field + GPU SKU table (V100/A100/H100/B100/RTX3090/4090/5090) + `from_name()` + `from_device()` | REQ-0010-F5–F8 | Not started |
-| 3 | `src/kernel_model/occupancy.py` | OccupancyResult dataclass + OccupancyModel with `compute()` + `sweep_block_sizes()` | REQ-0010-F1/F2/F9 | Not started |
-| 4 | `src/kernel_model/roofline.py` | RooflineResult dataclass + RooflineModel with `compute()` + `sweep_intensities()` | REQ-0010-F3/F4/F10 | Not started |
-| 5 | `demos/09_kernel_model/__init__.py` | Empty package init | REQ-0010 | Not started |
-| 6 | `demos/09_kernel_model/main.py` | CLI demo: occupancy table + roofline summary for vector-add kernel on A100 | REQ-0010-F11/F12 | Not started |
-| 7 | `tests/test_kernel_model.py` | 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test | REQ-0010 | Not started |
+| 1 | `src/kernel_model/__init__.py` | Package scaffold; re-exports DeviceSpec, OccupancyModel, RooflineModel | REQ-0010 | Done |
+| 2 | `src/kernel_model/device_spec.py` | DeviceSpec dataclass + `sm_version` field + GPU SKU table (V100/A100/H100/B100/RTX3090/4090/5090) + `from_name()` + `from_device()` | REQ-0010-F5–F8 | Done |
+| 3 | `src/kernel_model/occupancy.py` | OccupancyResult dataclass + OccupancyModel with `compute()` + `sweep_block_sizes()` | REQ-0010-F1/F2/F9 | Done |
+| 4 | `src/kernel_model/roofline.py` | RooflineResult dataclass + RooflineModel with `compute()` + `sweep_intensities()` | REQ-0010-F3/F4/F10 | Done |
+| 5 | `demos/09_kernel_model/__init__.py` | Empty package init | REQ-0010 | Done |
+| 6 | `demos/09_kernel_model/main.py` | CLI demo: occupancy table + roofline summary for vector-add kernel on A100 | REQ-0010-F11/F12 | Done |
+| 7 | `tests/test_kernel_model.py` | 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test | REQ-0010 | Done |
 
 ### GPU SKUs to support
 
@@ -59,25 +68,25 @@ V100 (16GB), A100 (40GB), A100 (80GB), H100 (80GB SXM), B100 (80GB SXM), RTX 309
 
 ### Definition of Done
 
-- [ ] `from src.kernel_model import OccupancyModel, RooflineModel, DeviceSpec` succeeds on a machine with no GPU
-- [ ] `DeviceSpec.from_name("A100")` returns a spec with `sm_version == "sm_80"`
-- [ ] `DeviceSpec.from_name("RTX 9999")` raises `KeyError` listing valid names
-- [ ] `OccupancyModel.compute(block_size=256, shared_mem_per_block=0, registers_per_thread=32)` returns occupancy between 0 and 1
-- [ ] `RooflineModel.compute(flops=1e9, bytes_accessed=1e8)` returns `bound` of `"compute"` or `"memory"`
-- [ ] `python demos/09_kernel_model/main.py` prints occupancy table + roofline summary without a GPU
-- [ ] All 11 CPU tests pass; 1 GPU test marked appropriately
-- [ ] Tech Lead sprint review: Approved or Conditional Approval
+- [x] `from src.kernel_model import OccupancyModel, RooflineModel, DeviceSpec` succeeds on a machine with no GPU
+- [x] `DeviceSpec.from_name("A100")` returns a spec with `sm_version == "sm_80"`
+- [x] `DeviceSpec.from_name("RTX 9999")` raises `KeyError` listing valid names
+- [x] `OccupancyModel.compute(block_size=256, shared_mem_per_block=0, registers_per_thread=32)` returns occupancy between 0 and 1
+- [x] `RooflineModel.compute(flops=1e9, bytes_accessed=1e8)` returns `bound` of `"compute"` or `"memory"`
+- [x] `python demos/09_kernel_model/main.py` prints occupancy table + roofline summary without a GPU
+- [x] All 11 CPU tests pass; 1 GPU test marked appropriately
+- [x] Tech Lead sprint review: Approved or Conditional Approval
 
 ---
 
-## Sprint 8 — PLANNED: PTX Kernel Execution Tracer
+## Sprint 8 — OPEN (PTX Kernel Execution Tracer)
 
 **Goal**: Implement `src/kernel_model/ptx_tracer.py` — a pure-Python PTX instruction scanner classifying instruction mix by category (smem, tmem, mma_warp, mma_warpgroup, mma_cta, async_copy, async_tma, fused_fp, global_mem) with architecture-specific annotations for Ampere, Ada, Hopper, and Blackwell.
 
 **ARCH ref**: ARCH-005 (Conditional Approval)
 **REQ ref**: REQ-0011
-**Depends on**: Sprint 7 complete — DeviceSpec (including `sm_version`) must be implemented first
-**Tech Lead verdict**: GO (contingent on Sprint 7) — `_MMA_LATENCY` values must be sourced from `agents/architecture/ptx-tracer-research.md`
+**Depends on**: Sprint 7 CLOSED — DeviceSpec (including `sm_version`) delivered
+**Tech Lead verdict**: GO — `_MMA_LATENCY` values must be sourced from `agents/architecture/ptx-tracer-research.md`; sm_86 ArchSpec placeholders must be filled
 
 ### Deliverables (in dependency order)
 
@@ -116,7 +125,7 @@ sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), sm_90 (H100), s
 
 **REQ refs**: REQ-0012 (CI/CD), REQ-0013 (Jupyter notebooks)
 **ARCH refs**: ARCH-006 (CI/CD), ARCH-007 (Notebooks)
-**Depends on**: Sprint 8 complete (so CI pipeline covers all 10 demos)
+**Depends on**: Sprint 8 complete — PTX Tracer (demos/10_ptx_tracer) must be delivered so CI pipeline covers all 10 demos
 
 ### Deliverables
 
@@ -177,8 +186,8 @@ sm_80 (A100), sm_86 (GA10x/RTX 3090), sm_89 (Ada/L40S/RTX 4090), sm_90 (H100), s
 | Sprint 4 | CLOSED | **Approved** | demos 05_naive_bayes, 39 CPU tests |
 | Sprint 5 | CLOSED | Conditional Approval | 12 backend variants + comparison demo, 72 CPU tests |
 | Sprint 6 | CLOSED | **Approved** | docs/slides/ — 37 slides covering all 8 demo directories |
-| Sprint 7 | OPEN | — | src/kernel_model/ — occupancy + roofline model library |
-| Sprint 8 | PLANNED | — | src/kernel_model/ptx_tracer.py — PTX instruction tracer (Ampere→Blackwell) |
+| Sprint 7 | CLOSED | Conditional Approval | src/kernel_model/ — occupancy + roofline model library; 11 CPU tests; M-1 fixed |
+| Sprint 8 | OPEN | — | src/kernel_model/ptx_tracer.py — PTX instruction tracer (Ampere→Blackwell) |
 | Sprint 9 | PLANNED | — | GitHub Actions CI + Jupyter notebooks (demos 01+02) |
 | Sprint 10 | PLANNED | — | README.md + physical GPU validation |
 
@@ -280,8 +289,8 @@ Run: `pytest tests/ -m "not gpu"` — 72 pass
 | Requirements (active) | `agents/requirements/REQ-0010.md` – `REQ-0014.md` |
 | Requirements (implemented) | `agents/requirements/REQ-0001.md` – `REQ-0009.md` |
 | Architecture | `agents/architecture/ARCH-001.md` – `ARCH-007.md` |
-| TL reviews | `agents/reviews/code/TL-review-sprint{1-6}*.md` |
-| Sprint retros | `agents/session-logs/proj-mgr/sprint-{1-6}-retro-2026-05-01.md` |
+| TL reviews | `agents/reviews/code/TL-review-sprint{1-7}*.md` |
+| Sprint retros | `agents/session-logs/proj-mgr/sprint-{1-6}-retro-2026-05-01.md`, `sprint-7-retro-2026-05-05.md` |
 | PTX tracer research | `agents/architecture/ptx-tracer-research.md` |
 | Prior art survey | `agents/architecture/prior-art-kernel-model.md` |
 | Run all demos | `python benchmarks/run_all.py` (requires GPU) |

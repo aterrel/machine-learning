@@ -1,49 +1,29 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 7 TL REVIEW COMPLETE — Conditional Approval — Minor issues tracked (2026-05-05)
+## Status: SPRINT 8 OPEN — PTX Kernel Execution Tracer (2026-05-05)
 
-Sprint 7 goal: `src/kernel_model/` — pure-Python occupancy + roofline library. Programmer deliverables complete.
-REQ: REQ-0010 | ARCH: ARCH-004 (Conditional Approval) | TL verdict: GO
-
----
-
-## Sprint 7 — Kernel Performance Model (REQ-0010)
-
-### P0 — Programmer
-
-- [x] [Prog] Create `src/kernel_model/__init__.py` — re-exports DeviceSpec, OccupancyModel, OccupancyResult, RooflineModel, RooflineResult
-- [x] [Prog] Create `src/kernel_model/device_spec.py` — DeviceSpec dataclass (incl. `sm_version: str`), GPU SKU table (V100/A100-40/A100-80/H100/B100/RTX3090/RTX4090/RTX5090), `from_name()`, `from_device()`
-- [x] [Prog] Create `src/kernel_model/occupancy.py` — OccupancyResult dataclass + OccupancyModel with `compute()` + `sweep_block_sizes()`
-- [x] [Prog] Create `src/kernel_model/roofline.py` — RooflineResult dataclass + RooflineModel with `compute()` + `sweep_intensities()`
-- [x] [Prog] Create `demos/09_kernel_model/__init__.py` — empty package init
-- [x] [Prog] Create `demos/09_kernel_model/main.py` — CLI demo: occupancy table + roofline summary for vector-add kernel on A100
-- [x] [Prog] Create `tests/test_kernel_model.py` — 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test
-
-### P1 — Tech Lead Review
-
-- [x] [TL] Sprint 7 code review — verify occupancy math, roofline math, SKU table accuracy, test coverage — Conditional Approval (2026-05-05)
+Sprint 8 goal: `src/kernel_model/ptx_tracer.py` — pure-Python PTX instruction tracer (Ampere/Ada/Hopper/Blackwell).
+REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLOSED
 
 ---
 
-## Sprint 6 — Slide-Based Demo Documentation (REQ-0009)
+## Sprint 8 — PTX Kernel Execution Tracer (REQ-0011)
 
 ### P0 — Programmer
 
-- [x] [Prog] Create `docs/slides/README.md` index
-- [x] [Prog] Create `docs/slides/00_introduction/` (2 slides: what_is_cuda_python, project_overview)
-- [x] [Prog] Create `docs/slides/01_core_apis/` (6 slides: device_setup, memory_allocation, kernel_compilation, kernel_launch, pinned_memory, backend_comparison)
-- [x] [Prog] Create `docs/slides/02_kmeans/` (5 slides: algorithm, cpu_baseline, gpu_kernel, cupy_variant, numba_variant)
-- [x] [Prog] Create `docs/slides/03_pca/` (4 slides: algorithm, gpu_covariance, cupy_linalg, backend_comparison)
-- [x] [Prog] Create `docs/slides/04_linear_model/` (3 slides: normal_equations, gpu_xtx_kernel, backend_comparison)
-- [x] [Prog] Create `docs/slides/05_kernels/` (4 slides: gemm_overview, gemm_kernel, relu_softmax, backend_comparison)
-- [x] [Prog] Create `docs/slides/05_naive_bayes/` (4 slides: algorithm, gpu_log_likelihood, cupy_broadcasting, backend_comparison)
-- [x] [Prog] Create `docs/slides/06_interop/` (4 slides: cuda_array_interface, cupy_interop, pytorch_interop, pipeline)
-- [x] [Prog] Create `docs/slides/07_memory/` (3 slides: device_allocation, pinned_memory, oom_recovery)
-- [x] [Prog] Create `docs/slides/08_comparison/` (2 slides: abstraction_levels, reading_the_table)
+- [ ] [Prog] Create `src/kernel_model/_taxonomy.py` — `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord
+- [ ] [Prog] Create `src/kernel_model/_arch_table.py` — `ArchSpec` dataclass + `_ARCH_TABLE` for sm_80/86/89/90/100 + `_MMA_LATENCY` values from ptx-tracer-research.md
+- [ ] [Prog] Create `src/kernel_model/ptx_tracer.py` — PTXTracer, TracerResult, InstructionRecord with trace(), trace_file(), bottleneck()
+- [ ] [Prog] Update `src/kernel_model/__init__.py` — add PTXTracer, TracerResult to re-exports
+- [ ] [Prog] Create `demos/10_ptx_tracer/__init__.py` — empty package init
+- [ ] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/vector_add.ptx` — handwritten minimal PTX for vector-add
+- [ ] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/gemm_mma.ptx` — handwritten minimal PTX with mma.sync instructions
+- [ ] [Prog] Create `demos/10_ptx_tracer/main.py` — CLI demo: trace both fixtures vs A100 and H100 side-by-side
+- [ ] [Prog] Create `tests/test_ptx_tracer.py` — 13 CPU-safe test cases per ARCH-005
 
 ### P1 — Tech Lead Review
 
-- [x] [TL] Sprint 6 code review — verify slide content accuracy and code snippet correctness
+- [ ] [TL] Sprint 8 code review — verify PTX classification, arch table, bottleneck logic, test coverage
 
 ---
 
@@ -56,6 +36,20 @@ REQ: REQ-0010 | ARCH: ARCH-004 (Conditional Approval) | TL verdict: GO
 ---
 
 ## Completed
+
+### Sprint 6 — Slide-Based Demo Documentation (CLOSED — Approved)
+- [x] [Prog] docs/slides/ — 37 slides across 10 directories (REQ-0009)
+- [x] [TL] Sprint 6 code review — Approved
+
+### Sprint 7 — Kernel Performance Model (CLOSED — Conditional Approval)
+- [x] [Prog] Create `src/kernel_model/__init__.py` — re-exports DeviceSpec, OccupancyModel, OccupancyResult, RooflineModel, RooflineResult
+- [x] [Prog] Create `src/kernel_model/device_spec.py` — DeviceSpec dataclass (incl. `sm_version: str`), GPU SKU table (V100/A100-40/A100-80/H100/B100/RTX3090/RTX4090/RTX5090), `from_name()`, `from_device()`
+- [x] [Prog] Create `src/kernel_model/occupancy.py` — OccupancyResult dataclass + OccupancyModel with `compute()` + `sweep_block_sizes()`
+- [x] [Prog] Create `src/kernel_model/roofline.py` — RooflineResult dataclass + RooflineModel with `compute()` + `sweep_intensities()`
+- [x] [Prog] Create `demos/09_kernel_model/__init__.py` — empty package init
+- [x] [Prog] Create `demos/09_kernel_model/main.py` — CLI demo: occupancy table + roofline summary for vector-add kernel on A100; M-1 (dead `mem_bw_util`) fixed post-review
+- [x] [Prog] Create `tests/test_kernel_model.py` — 11 CPU-safe unit tests + 1 `@pytest.mark.gpu` test
+- [x] [TL] Sprint 7 code review — Conditional Approval (2026-05-05) — 0 critical, 0 major, 7 minor findings; M-1 fixed
 
 ### Sprint 0 / Bootstrap
 - [x] [Claude-Mgr] Full project initialization (PROJECT.md, CLAUDE.md, REQ-0001–0006, ARCH-001–002)
