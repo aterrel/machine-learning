@@ -1,6 +1,6 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 8 OPEN — PTX Kernel Execution Tracer (2026-05-05)
+## Status: SPRINT 8 CLOSED — PTX Kernel Execution Tracer (2026-05-05) — Approved
 
 Sprint 8 goal: `src/kernel_model/ptx_tracer.py` — pure-Python PTX instruction tracer (Ampere/Ada/Hopper/Blackwell).
 REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLOSED
@@ -23,7 +23,7 @@ REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLO
 
 ### P1 — Tech Lead Review
 
-- [ ] [TL] Sprint 8 code review — verify PTX classification, arch table, bottleneck logic, test coverage
+- [x] [TL] Sprint 8 code review — Approved (2026-05-05) — 0 critical, 0 major, 4 minor findings
 
 ---
 
