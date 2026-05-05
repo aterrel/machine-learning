@@ -1,0 +1,47 @@
+.version 8.0
+.target sm_80
+.address_size 64
+
+.visible .entry gemm_mma_kernel(
+    .param .u64 param_a,
+    .param .u64 param_b,
+    .param .u64 param_c
+)
+{
+    .reg .u64   %rd<6>;
+    .reg .f32   %f<4>;
+    .reg .b16   %h<6>;
+
+    .shared .align 128 .b8 smem_a[8192];
+    .shared .align 128 .b8 smem_b[4096];
+
+    ld.param.u64    %rd0, [param_a];
+    ld.param.u64    %rd1, [param_b];
+    ld.param.u64    %rd2, [param_c];
+
+    cp.async.ca.shared.global [smem_a], [%rd0], 16;
+    cp.async.ca.shared.global [smem_b], [%rd1], 16;
+    cp.async.commit_group;
+    cp.async.wait_all;
+
+    ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%h0, %h1, %h2, %h3}, [smem_a];
+    ldmatrix.sync.aligned.m8n8.x2.shared.b16 {%h4, %h5},            [smem_b];
+
+    mov.f32 %f0, 0.0;
+    mov.f32 %f1, 0.0;
+    mov.f32 %f2, 0.0;
+    mov.f32 %f3, 0.0;
+
+    mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32
+        {%f0, %f1, %f2, %f3},
+        {%h0, %h1, %h2, %h3},
+        {%h4, %h5},
+        {%f0, %f1, %f2, %f3};
+
+    st.global.f32   [%rd2],    %f0;
+    st.global.f32   [%rd2+4],  %f1;
+    st.global.f32   [%rd2+8],  %f2;
+    st.global.f32   [%rd2+12], %f3;
+
+    ret;
+}

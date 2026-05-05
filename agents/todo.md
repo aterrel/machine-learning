@@ -11,15 +11,15 @@ REQ: REQ-0011 | ARCH: ARCH-005 (Conditional Approval) | Depends on: Sprint 7 CLO
 
 ### P0 — Programmer
 
-- [ ] [Prog] Create `src/kernel_model/_taxonomy.py` — `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord
-- [ ] [Prog] Create `src/kernel_model/_arch_table.py` — `ArchSpec` dataclass + `_ARCH_TABLE` for sm_80/86/89/90/100 + `_MMA_LATENCY` values from ptx-tracer-research.md
-- [ ] [Prog] Create `src/kernel_model/ptx_tracer.py` — PTXTracer, TracerResult, InstructionRecord with trace(), trace_file(), bottleneck()
-- [ ] [Prog] Update `src/kernel_model/__init__.py` — add PTXTracer, TracerResult to re-exports
-- [ ] [Prog] Create `demos/10_ptx_tracer/__init__.py` — empty package init
-- [ ] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/vector_add.ptx` — handwritten minimal PTX for vector-add
-- [ ] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/gemm_mma.ptx` — handwritten minimal PTX with mma.sync instructions
-- [ ] [Prog] Create `demos/10_ptx_tracer/main.py` — CLI demo: trace both fixtures vs A100 and H100 side-by-side
-- [ ] [Prog] Create `tests/test_ptx_tracer.py` — 13 CPU-safe test cases per ARCH-005
+- [x] [Prog] Create `src/kernel_model/_taxonomy.py` — `_INSTRUCTION_TAXONOMY` dict: PTX mnemonic prefix → InstructionRecord
+- [x] [Prog] Create `src/kernel_model/_arch_table.py` — `ArchSpec` dataclass + `_ARCH_TABLE` for sm_70/80/86/89/90/100 + `_MMA_LATENCY` values from ptx-tracer-research.md
+- [x] [Prog] Create `src/kernel_model/ptx_tracer.py` — PTXTracer, TracerResult, InstructionRecord with trace(), trace_file(), bottleneck()
+- [x] [Prog] Update `src/kernel_model/__init__.py` — add PTXTracer, TracerResult to re-exports
+- [x] [Prog] Create `demos/10_ptx_tracer/__init__.py` — empty package init
+- [x] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/vector_add.ptx` — handwritten minimal PTX for vector-add
+- [x] [Prog] Create `demos/10_ptx_tracer/ptx_fixtures/gemm_mma.ptx` — handwritten minimal PTX with mma.sync instructions
+- [x] [Prog] Create `demos/10_ptx_tracer/main.py` — CLI demo: trace both fixtures vs A100 and H100 side-by-side
+- [x] [Prog] Create `tests/test_ptx_tracer.py` — 13 CPU-safe test cases per ARCH-005
 
 ### P1 — Tech Lead Review
 
