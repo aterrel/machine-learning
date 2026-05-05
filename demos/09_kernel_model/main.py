@@ -44,7 +44,6 @@ def main() -> None:
     roof_model = RooflineModel(device)
     roof = roof_model.compute(flops=flops, bytes_accessed=bytes_accessed)
 
-    mem_bw_util = (roof.predicted_gflops / device.memory_bandwidth_gbs) * 1000 if roof.bound == "memory" else 0.0
     print(f"{'Arithmetic intensity':<20} : {roof.arithmetic_intensity:.3f} FLOP/byte")
     print(f"{'Ridge point':<20} : {roof.ridge_point:.2f} FLOP/byte")
     print(f"{'Bound':<20} : {roof.bound}")
