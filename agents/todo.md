@@ -1,13 +1,13 @@
 # agents/todo.md — CUDA Python ML Demos Task Tracker
 
-## Status: SPRINT 10 OPEN — README + Physical GPU Validation (2026-05-05)
+## Status: SPRINT 10 CLOSED — Project Feature-Complete (GPU validation deferred)
 
 Sprint 10 goal: `README.md` covering all 10 demos with CI badge + Physical GPU validation of all 26 GPU tests.
 REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ---
 
-## Sprint 10 — README + Physical GPU Validation (REQ-0014)
+## Sprint 10 — README + Physical GPU Validation (CLOSED — Approved)
 
 ### P0 — Programmer
 
@@ -17,7 +17,7 @@ REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ### P1 — GPU Validation (requires NVIDIA hardware)
 
-- [!] [Prog] Run `pytest tests/ -v` on physical NVIDIA GPU; document pass/fail for all 26 GPU tests (BLOCKED: requires NVIDIA GPU hardware)
+- [!] [Prog] Run pytest tests/ -v on physical NVIDIA GPU; document pass/fail for all 26 GPU tests (BLOCKED: requires NVIDIA GPU hardware — deferred to post-Sprint-10)
 - [ ] [Prog] Fix any correctness issues found during GPU validation
 
 ### P1 — Tech Lead Review
@@ -32,7 +32,7 @@ REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ## Remaining Backlog (not blocking)
 
-- [ ] Physical GPU validation — all 26 GPU tests (Sprint 10 P1, requires NVIDIA hardware)
+- [!] Physical GPU validation — all 26 GPU tests (requires NVIDIA hardware; deferred)
 - [ ] Jupyter notebooks for demos 03–08 (post-Sprint 10, P2)
 - [ ] FP16/BF16/TF32 performance modeling extensions (P2)
 - [ ] cuobjdump PTX extraction in PTXTracer (P2)
@@ -42,7 +42,7 @@ REQ: REQ-0014 | Depends on: Sprint 9 CLOSED
 
 ## Completed
 
-### Sprint 10 — README + GPU Validation (OPEN)
+### Sprint 10 — README + GPU Validation (CLOSED — Approved)
 - [x] [Prog] Create `README.md` — full project README replacing template stub; CI badge, demo table (01–10), CPU-only quickstart, GPU quickstart, prerequisites, test commands, notebook links, slides link (REQ-0014-F1–F8)
 - [x] [Prog] Fix m-2: add `cupy-cuda12x>=12.0` and `torch>=2.0` to `gpu-ci.yml` pip install (Sprint 9 TL finding)
 - [x] [Prog] Fix m-1: CI badge added to README (REQ-0012-F5)
